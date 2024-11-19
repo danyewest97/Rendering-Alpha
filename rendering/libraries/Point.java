@@ -1,6 +1,4 @@
-package RenderingAlpha.src.lib;
-
-import RenderingAlpha.src.run.Panel;
+package rendering.libraries;
 
 import java.util.*;
 import java.awt.*;

@@ -1,2 +1,3 @@
+rendering/libraries/Point.java
 rendering/renderer/Renderer.java
 rendering/test/Main.java

@@ -1,6 +1,6 @@
 package rendering.renderer;
 
-import rendering.libraries.Point;
+import rendering.libraries.*;
 
 public class Renderer {
 	

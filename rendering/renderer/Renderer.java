@@ -6,8 +6,11 @@ import rendering.libraries.Point;
 import java.util.*;
 import java.util.Timer;
 
+
+// Note: ctrl + shift + q to comment/uncomment full blocks
+
 public class Renderer {
-	public double camX = 250;
+	/* public double camX = 250;
 	public double camY = 250;
 	public double camZ = 0;
 	public double zSensitivity = 0.003; // May not be necessary
@@ -107,19 +110,50 @@ public class Renderer {
 		Point result = new Point(rx, ry, z, point.color);
 		
 		return result;
-	}
+	} */
 }
 
 
-
+class Tri {
+	Inequality a;
+	Inequality b;
+	Inequality c;
+	
+	
+}
 
 
 // 1x1 box representing a pixel that stores info about pixels and is used to calculate things like opacity
 class Cell {
-	ArrayList<Line> lines
+	// ArrayList<Inequality> lines
 	
 }
 
 
 // Used to calculate opacity and obfuscation in cells
-class Line
+class Inequality {
+	Point a;
+	Point b;
+	String inequality; // Can either be "<" or ">"
+	
+	// Precondition: inequality must be either "<" or ">"
+	public Inequality(Point a, Point b, String inequality) {
+		this.a = a;
+		this.b = b;
+		this.inequality = inequality;
+	}
+	
+	public boolean contains(Point p) {
+		if (inequality.equals(">")) {
+			return p.y > getY(p.x);
+		} else if (inequality.equals("<")) {
+			return p.y < getY(p.x);
+		} else {
+			return false;
+		}
+	}
+	
+	public double getY(double x) {
+		return (b.x - a.x) * (x - a.x) + a.y;
+	}
+}

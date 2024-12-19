@@ -33,6 +33,7 @@ public class Main {
 		// } */
 		
 		
+		
 		Point p1 = new Point(0, 0, 0);
 		Point p2 = new Point(100, 0, 0);
 		Point p3 = new Point(0, 100, 0);
@@ -206,31 +207,9 @@ class Tri {
 	public Inequality ca;
 	
 	public Tri(Point a, Point b, Point c) {
-		// ArrayList<Point> order = new ArrayList<Point>();
-		// order.add(a);
-		// if (b.x <= order.get(0).x) {
-			// order.add(0, b);
-		// } else {
-			// order.add(b);
-		// }
-		// if (c.x <= order.get(0).x) {
-			// order.add(0, c);
-		// } else if (c.x <= order.get(1).x) {
-			// order.add(1, c);
-		// } else {
-			// order.add(c);
-		// }
-		
-		// this.a = order.get(0);
-		// this.b = order.get(1);
-		// this.c = order.get(2);
 		this.a = a;
 		this.b = b;
 		this.c = c;
-		
-		// System.out.println(this.a);
-		// System.out.println(this.b);
-		// System.out.println(this.c);
 		
 		
 		this.ab = new Inequality(a, b, ">");

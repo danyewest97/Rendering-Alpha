@@ -45,8 +45,14 @@ public class Main {
 		
 		Point check = new Point(5, 5, 0);
 		
+		// for (int i = 0; i < 100; i++) {
+			// Point p = new Point((Math.random() * 100), (Math.random() * 100), 0);
+			// System.out.println(p);
+			// System.out.println(b.contains(p));
+		// }
 		
-		// Tri test = new Tri(p1, p2, p3);
+		Tri test = new Tri(p1, p2, p3);
+		// System.out.println(test.contains(check));
 		
 		// System.out.println(a.contains(check) && b.contains(check) && c.contains(check));
 		// System.out.println(c.yslope);
@@ -63,13 +69,13 @@ public class Main {
 				// System.out.println(areaContains);
 			// }
 			
-			// boolean triContains = (test.contains(p));
 			
-			// if (triContains != inequalityContains) {
-				// System.out.println(p);
-				// System.out.println(inequalityContains);
-				// System.out.println(triContains);
-			// }
+			boolean triContains = (test.contains(p));
+			if (triContains != inequalityContains) {
+				System.out.println(p);
+				System.out.println(inequalityContains);
+				System.out.println(triContains);
+			}
 			
 			// if (triContains != areaContains) {
 				// System.out.println(p);
@@ -200,26 +206,41 @@ class Tri {
 	public Inequality ca;
 	
 	public Tri(Point a, Point b, Point c) {
-		ArrayList<Point> order = new ArrayList<Point>();
-		order.add(a);
-		if (b.x < order.get(0).x) {
-			order.add(0, b);
-		} else {
-			order.add(b);
-		}
-		if (c.x < order.get(0).x) {
-			order.add(0, c);
-		} else if (c.x < order.get(1).x) {
-			order.add(1, c);
-		} else {
-			order.add(c);
-		}
+		// ArrayList<Point> order = new ArrayList<Point>();
+		// order.add(a);
+		// if (b.x <= order.get(0).x) {
+			// order.add(0, b);
+		// } else {
+			// order.add(b);
+		// }
+		// if (c.x <= order.get(0).x) {
+			// order.add(0, c);
+		// } else if (c.x <= order.get(1).x) {
+			// order.add(1, c);
+		// } else {
+			// order.add(c);
+		// }
 		
-		this.a = order.get(0);
-		this.b = order.get(1);
-		this.c = order.get(2);
+		// this.a = order.get(0);
+		// this.b = order.get(1);
+		// this.c = order.get(2);
+		this.a = a;
+		this.b = b;
+		this.c = c;
+		
+		// System.out.println(this.a);
+		// System.out.println(this.b);
+		// System.out.println(this.c);
 		
 		
+		this.ab = new Inequality(a, b, ">");
+		if (!ab.contains(c)) ab.inequality = "<";
+		
+		this.bc = new Inequality(b, c, ">");
+		if (!bc.contains(a)) bc.inequality = "<";
+		
+		this.ca = new Inequality(c, a, ">");
+		if (!ca.contains(b)) ca.inequality = "<";
 	}
 	
 	

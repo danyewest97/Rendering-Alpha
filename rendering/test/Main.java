@@ -1,8 +1,10 @@
 package rendering.test;
 
 import rendering.renderer.*;
+import rendering.renderer.Renderer;
 import rendering.libraries.*;
 import rendering.libraries.Point;
+import rendering.libraries.Tri;
 
 import java.util.Timer;
 import java.util.*;
@@ -32,10 +34,34 @@ public class Main {
 			// }
 		// } */
 		
+		Point x = new Point(0, 0, 0);
+		Point y = new Point(10, 0, 0);
+		Point z = new Point(0, 5, 0);
 		
+		Tri test = new Tri(x, y, z);
+		
+		// Renderer r = new Renderer(500, 500);
+		
+		// ArrayList<int[]> methodCheck = r.findPoints(test);
+		// for (int i = 0; i < methodCheck.size(); i++) {
+			// int[] coords = methodCheck.get(i);
+			// System.out.print("[" + coords[0] + "]" + "[" + coords[1] + "], ");
+		// }
 		
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+/* // Classes needed for checking sub-pixel points for obfuscation and opacity
 
 // Used to calculate opacity and obfuscation in cells
 class Inequality {
@@ -118,3 +144,4 @@ class Tri {
 		return (ab.contains(p) && bc.contains(p) && ca.contains(p));
 	}
 }
+ */

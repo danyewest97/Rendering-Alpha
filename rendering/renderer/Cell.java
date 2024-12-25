@@ -64,7 +64,7 @@ public class Cell {
 				subColors.add(points.get(k).color);
 			}
 			// Adding the background, should have 0.0 opacity
-			// subColors.add(background);
+			subColors.add(background);
 			
 			while (subColors.size() > 1) {
 				Color colorA = subColors.get(0);
@@ -74,7 +74,7 @@ public class Cell {
 				totalOpacity -= totalOpacity * ((255 - opacityA) / 255);
 				
 				
-				Color newColor = mixColors(colorA, colorB, oldOpacity, totalOpacity);
+				Color newColor = mixColors(colorA, colorB, totalOpacity);
 				subColors.set(0, newColor);
 				subColors.remove(1);
 			}
@@ -97,7 +97,7 @@ public class Cell {
 			totalOpacity -= totalOpacity * ((255 - opacityA) / 255);
 			
 			
-			Color newColor = mixColors(colorA, colorB, oldOpacity, totalOpacity);
+			Color newColor = mixColors(colorA, colorB, totalOpacity);
 			colors.set(0, newColor);
 			colors.remove(1);
 		}
@@ -106,23 +106,23 @@ public class Cell {
 	}
 	
 	// Mixes two colors, with ratio being the ratio of a:b (Color a to Color b)
-	public static Color mixColors(Color a, Color b, double multA, double multB) {
-		double redA = a.getRed() * multA;
-		double greenA = a.getGreen() * multA;
-		double blueA = a.getBlue() * multA;
-		double alphaA = a.getAlpha() * multA;
+	public static Color mixColors(Color a, Color b, double ratio) {
+		double redA = a.getRed();
+		double greenA = a.getGreen();
+		double blueA = a.getBlue();
+		double alphaA = a.getAlpha();
 		
-		double redB = b.getRed() * multB;
-		double greenB = b.getGreen() * multB;
-		double blueB = b.getBlue() * multB;
-		double alphaB = b.getAlpha() * multB;
+		double redB = b.getRed();
+		double greenB = b.getGreen();
+		double blueB = b.getBlue();
+		double alphaB = b.getAlpha();
 		
 		// Adding 0.5 before casting to int to round to the nearest whole number
 		// Taking the minimum of the value or 255 to prevent having too large a color value
-		int finalRed = Math.min((int) (redA + redB + 0.5), 255);
-		int finalGreen = Math.min((int) (greenA + greenB + 0.5), 255);
-		int finalBlue = Math.min((int) (blueA + blueB + 0.5), 255);
-		int finalAlpha = Math.min((int) (alphaA + alphaB + 0.5), 255);
+		int finalRed = Math.min((int) (lerp(redA, redB, ratio) + 0.5), 255);
+		int finalGreen = Math.min((int) (lerp(greenA, greenB, ratio) + 0.5), 255);
+		int finalBlue = Math.min((int) (lerp(blueA, blueB, ratio) + 0.5), 255);
+		int finalAlpha = Math.min((int) (lerp(alphaA, alphaB, ratio) + 0.5), 255);
 		
 		
 		Color result = new Color(finalRed, finalGreen, finalBlue, finalAlpha);
@@ -132,7 +132,7 @@ public class Cell {
 	
 	
 	public static double lerp(double a, double b, double percent) {
-		return (b - a) * percent;
+		return a + (b - a) * percent;
 	}
 	
 	class sortByZ implements Comparator<Point> {

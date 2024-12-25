@@ -42,7 +42,7 @@ public class Main {
 		Tri test = new Tri(x, y, z, null) {
 			@Override
 			public double[] colorEquation(double x, double y) {
-				double opacity = Math.min(Math.sqrt(Math.pow(x / 450, 2) + Math.pow(y / 150, 2)), 1);
+				double opacity = 1 - Math.min(Math.sqrt(Math.pow(x / 450, 2) + Math.pow(y / 150, 2)), 1);
 				double red = Math.min(Math.sqrt(Math.pow(x / 300, 2) + Math.pow(y / 50, 2)), 1);
 				double green = Math.min(Math.sqrt(Math.pow(x / 400, 2) + Math.pow((100 - y) / 100, 2)), 1);
 				double[] result = {red, green, 1.0, opacity};

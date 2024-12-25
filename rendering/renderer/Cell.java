@@ -11,7 +11,7 @@ import java.awt.Color;
 // 1x1 box representing a pixel that stores info about pixels and is used to calculate things like opacity
 public class Cell {
 	public ArrayList<Tri> tris = new ArrayList<Tri>();
-	public Color background = new Color(255, 255, 255, 0); // Will add to constructor later to be inherited from parent Renderer object, for now just using white
+	public Color background = new Color(255, 255, 255, 255); // Will add to constructor later to be inherited from parent Renderer object, for now just using white
 	public int x;
 	public int y;
 	
@@ -107,22 +107,36 @@ public class Cell {
 	// TODO: Make several colors mix properly!
 	// Mixes two colors, with ratio being the ratio of a:b (Color a to Color b)
 	public static Color mixColors(Color a, Color b, double ratio) {
+		double alphaA = a.getAlpha() / (double) 255;
+		double alphaB = b.getAlpha() / (double) 255;
+		
+		double percentA = alphaA;
+		double percentB = (1 - alphaA) * alphaB;
+		
+		
+		
 		double redA = a.getRed();
 		double greenA = a.getGreen();
 		double blueA = a.getBlue();
-		double alphaA = a.getAlpha();
 		
 		double redB = b.getRed();
 		double greenB = b.getGreen();
 		double blueB = b.getBlue();
-		double alphaB = b.getAlpha();
+		
+		
+		// int finalRed = Math.min((int) (((redA * alphaA) + (redB * (1 - alphaA) * ratio)) + 0.5), 255);
+		// int finalGreen = Math.min((int) (((greenA * alphaA) + (greenB * (1 - alphaA) * ratio)) + 0.5), 255);
+		// int finalBlue = Math.min((int) (((blueA * alphaA) + (blueB * (1 - alphaA) * ratio)) + 0.5), 255);
+		// int finalAlpha = Math.min((int) (((255 * alphaA) + (255 * alphaB) * ratio) + 0.5), 255);
+		
 		
 		// Adding 0.5 before casting to int to round to the nearest whole number
 		// Taking the minimum of the value or 255 to prevent having too large a color value
-		int finalRed = Math.min((int) (lerp(redA, redB, ratio) + 0.5), 255);
-		int finalGreen = Math.min((int) (lerp(greenA, greenB, ratio) + 0.5), 255);
-		int finalBlue = Math.min((int) (lerp(blueA, blueB, ratio) + 0.5), 255);
-		int finalAlpha = Math.min((int) (lerp(alphaA, alphaB, ratio) + 0.5), 255);
+		int finalRed = Math.min((int) ((redA + redB * percentB) + 0.5), 255);
+		int finalGreen = Math.min((int) ((greenA + greenB * percentB) + 0.5), 255);
+		int finalBlue = Math.min((int) ((blueA + blueB * percentB) + 0.5), 255);
+		int finalAlpha = Math.min((int) ((255 * (percentA + percentB)) + 0.5), 255);
+		
 		
 		
 		Color result = new Color(finalRed, finalGreen, finalBlue, finalAlpha);

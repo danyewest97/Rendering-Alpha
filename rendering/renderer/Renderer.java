@@ -25,7 +25,7 @@ public class Renderer {
 	public Cell[][] cells; // 2D array of cells that is used for calculating correct opacity and obfuscation
 	public ArrayList<Tri> triangles = new ArrayList<Tri>(); //
 	
-	public Color background = new Color(255, 255, 255, 0); // Will add to constructor later, for now white is default, also bg color should be opaque (0.0 opacity)
+	public Color background = new Color(255, 255, 255, 255); // Will add to constructor later, for now white is default, also bg color should be opaque (0.0 opacity)
 	
 	
 	// Constructors

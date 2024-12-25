@@ -131,6 +131,10 @@ public class Cell {
 	}
 	
 	
+	public static double lerp(double a, double b, double percent) {
+		return (b - a) * percent;
+	}
+	
 	class sortByZ implements Comparator<Point> {
 		public int compare(Point a, Point b){
 			if (a.z < b.z) return -1;

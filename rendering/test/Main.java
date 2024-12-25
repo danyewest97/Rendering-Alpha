@@ -8,6 +8,7 @@ import rendering.libraries.Tri;
 
 import java.util.Timer;
 import java.util.*;
+import java.util.Timer;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -22,7 +23,6 @@ public class Main {
 		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
-		
 		
 		
 		
@@ -64,6 +64,7 @@ public class Main {
 			}
 		};
 		r.draw();
+		
 		
 		BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 		
@@ -117,6 +118,60 @@ public class Main {
 		
 		window.add(pane);
 		pane.repaint();
+		
+		
+		Timer frames = new Timer();
+		
+		frames.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+				
+				r.clear();
+				r.draw();
+				
+				// System.out.println(r.triangles.get(0).a.x);
+				
+				
+				for (int i = 0; i < r.cells.length; i++) {
+					for (int j = 0; j < r.cells[i].length; j++) {
+						img.setRGB(i, j, Color.white.getRGB());
+					}
+				}
+				
+				for (int i = 0; i < r.cells.length; i++) {
+					for (int j = 0; j < r.cells[i].length; j++) {
+						Cell c = r.cells[i][j];
+						if (c != null) {
+							Color color = c.calculateColor();
+							int cr = color.getRed();
+							int cg = color.getGreen();
+							int cb = color.getBlue();
+							int ca = color.getAlpha();
+							// System.out.print("|[" + i + "]" + "[" + j + "] = " + cr + ", " + cg + ", " + cb + ", " + ca + "| ");
+							
+							
+							img.setRGB(i, j, color.getRGB());
+						}
+					}
+				}
+				
+				
+				pane.repaint();
+				window.repaint();
+				
+			}
+		}, 0, 100);
+		
+		
+		Timer movement = new Timer();
+		
+		movement.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				test.a.x += 1;
+			}
+		}, 0, 16);
 	}
 }
 

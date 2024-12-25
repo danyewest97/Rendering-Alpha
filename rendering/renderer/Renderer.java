@@ -146,6 +146,7 @@ public class Renderer {
 	public boolean clear() {
 		this.points = new Point[(int) width][(int) height];
 		this.cells = new Cell[(int) width][(int) height];
+		triangles = new ArrayList<Tri>();
 		
 		return true;
 	}

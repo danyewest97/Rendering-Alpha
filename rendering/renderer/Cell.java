@@ -103,6 +103,8 @@ public class Cell {
 		return colors.get(0);
 	}
 	
+	
+	// TODO: Make several colors mix properly!
 	// Mixes two colors, with ratio being the ratio of a:b (Color a to Color b)
 	public static Color mixColors(Color a, Color b, double ratio) {
 		double redA = a.getRed();

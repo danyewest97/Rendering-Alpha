@@ -1,11 +1,13 @@
 package rendering.renderer;
 
+import rendering.renderer.Cell;
 import rendering.libraries.*;
 import rendering.libraries.Tri;
 import rendering.libraries.Point;
 
 import java.util.*;
 import java.util.Timer;
+import java.awt.Color;
 
 
 // Note: ctrl + shift + q to comment/uncomment full blocks
@@ -22,6 +24,8 @@ public class Renderer {
 	public Point[][] points; // 2D array of points that will be returned upon updating
 	public Cell[][] cells; // 2D array of cells that is used for calculating correct opacity and obfuscation
 	public ArrayList<Tri> triangles = new ArrayList<Tri>(); //
+	
+	public Color background = new Color(255, 255, 255, 0); // Will add to constructor later, for now white is default, also bg color should be opaque (0.0 opacity)
 	
 	
 	// Constructors
@@ -49,10 +53,19 @@ public class Renderer {
 	}
 	
 	public boolean tri(Point a, Point b, Point c) {
-		Tri t = new Tri(a, b, c);
+		Tri t = new Tri(a, b, c, this);
 		this.triangles.add(t);
-		coordsList = findPoints(t);
+		ArrayList<int[]> coordsList = findPoints(t);
 		dispersePoints(coordsList, t);
+		return true;
+	}
+	
+	public boolean tri(Tri temp) {
+		// Tri t = new Tri(temp.a, temp.b, temp.c, this);
+		temp.changeRenderer(this);
+		this.triangles.add(temp);
+		ArrayList<int[]> coordsList = findPoints(temp);
+		dispersePoints(coordsList, temp);
 		return true;
 	}
 	
@@ -112,7 +125,7 @@ public class Renderer {
 	}
 	
 	
-	public boolean dispersePoints(ArrayList<int[]> coordsList, Triangle t) {
+	public boolean dispersePoints(ArrayList<int[]> coordsList, Tri t) {
 		for (int i = 0; i < coordsList.size(); i++) {
 			int[] coords = coordsList.get(i);
 			
@@ -120,7 +133,8 @@ public class Renderer {
 			int y = coords[1];
 			
 			
-			
+			if (cells[x][y] == null) cells[x][y] = new Cell(x, y);
+			cells[x][y].addTriangle(t);
 		}
 		return true;
 	}
@@ -185,81 +199,3 @@ public class Renderer {
 		return result;
 	}
 }
-
-
-
-
-// 1x1 box representing a pixel that stores info about pixels and is used to calculate things like opacity
-class Cell {
-	ArrayList<Tri> tris = new ArrayList<Tri>();
-	int x;
-	int y;
-	
-	// I will add this later as a means to improve the accuracy of the opacity and obfuscation at sub-pixel levels at the cost of performance
-	// In the future (hopefully) my program will check subPoints points inside each cell for obfuscation, but for now I will just check the center of each cell
-	// This is effectively the same as having subPoints = 1
-	// int subPoints;
-	public Cell(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-	
-	public boolean addTriangle(Tri t) {
-		tris.add(t);
-		
-		
-		return true;
-	}
-	
-	
-	// Calculates the final color of the cell to be displayed as a single pixel, takes into account the opacity and positions of all the triangles that go through this cell and blends them all together
-	public Color calculateColor() {
-		ArrayList<Color> colors = new ArrayList<Color>();
-		
-		// Coordinates of sub-pixel points to check, where (0, 0) is the top left of the cell and (1, 1) is the bottom right
-		double[] xpoints = {0.5}; // Will change this later to include more points for checking several sub-pixel points, for now I'm just checking the center of each cell/pixel
-		double[] ypoints = {0.5}; // Same for this
-		
-		
-		// TODO: Apply obfuscation here by checking the z-values of points
-		for (int i = 0; i < xpoints.length /* <-- Will be changed to subPoints in the future */; i++) {
-			for (int j = 0; j < tris.size(); j++) {
-				Tri t = tris.get(j);
-				Point check = new Point((double) this.x + xpoints[i], (double) this.y + ypoints[i]);
-				if (t.contains(check)) colors.add(t.getColor(check.x, check.y));
-			}
-		}
-		
-		while (colors.size() > 1) {
-			// Color colorA = 
-			// colors.set(0, mixColors
-		}
-	}
-	
-	// Mixes two colors, with ratio being the ratio of a:b (Color a to Color b)
-	public static mixColors(Color a, Color b, double ratio) {
-		if (ratio > 1) ratio = 1;
-		
-		double redA = a.getRed() * ratio;
-		double blueA = a.getBlue() * ratio;
-		double greenA = a.getGreen() * ratio;
-		double alphaA = a.getAlpha() * ratio;
-		
-		double bRatio = 1 - ratio;
-		double redB = b.getRed() * bRatio;
-		double blueB = b.getBlue() * bRatio;
-		double greenB = b.getGreen() * bRatio;
-		double alphaB = b.getAlpha() * bRatio;
-		
-		// Adding 0.5 before casting to int to round to the nearest whole number
-		int finalRed = (int) (redA + redB + 0.5);
-		int finalBlue = (int) (blueA + blueB + 0.5);
-		int finalGreen = (int) (greenA + greenB + 0.5);
-		int finalAlpha = (int) (alphaA + alphaB + 0.5);
-		
-		Color result = new Color(finalRed, finalBlue, finalGreen, finalAlpha);
-		
-		return result;
-	}
-}
-

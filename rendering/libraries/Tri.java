@@ -1,7 +1,11 @@
 package rendering.libraries;
 
 import rendering.libraries.*;
+import rendering.libraries.Point;
+import rendering.libraries.Inequality;
 import rendering.renderer.*;
+import java.util.*;
+import java.awt.Color;
 
 public class Tri {
 	public Point a;
@@ -22,15 +26,25 @@ public class Tri {
 		this.b = b;
 		this.c = c;
 		
-		Point axy = r.xy(a);
-		Point bxy = r.xy(b);
-		Point cxy = r.xy(c);
+		Point axy;
+		Point bxy;
+		Point cxy;
+		
+		if (r != null) {
+			axy = r.xy(a);
+			bxy = r.xy(b);
+			cxy = r.xy(c);
+		} else {
+			axy = a;
+			bxy = b;
+			cxy = c;
+		}
 		
 		this.ab = new Inequality(axy, bxy, ">");
 		if (!ab.contains(cxy)) ab.inequality = "<";
 		
 		this.bc = new Inequality(bxy, cxy, ">");
-		if (!bc.contains(axy) bc.inequality = "<";
+		if (!bc.contains(axy)) bc.inequality = "<";
 		
 		this.ca = new Inequality(cxy, axy, ">");
 		if (!ca.contains(bxy)) ca.inequality = "<";
@@ -39,12 +53,54 @@ public class Tri {
 		leftToRight.add(a);
 		leftToRight.add(b);
 		leftToRight.add(c);
-		Collections.sort(leftToRight);
+		Collections.sort(leftToRight, new sortByX());
+		
 		
 		leftToRightXY.add(axy);
 		leftToRightXY.add(bxy);
 		leftToRightXY.add(cxy);
-		Collections.sort(leftToRightXY);
+		Collections.sort(leftToRightXY, new sortByX());
+	}
+	
+	public void changeRenderer(Renderer r) {
+		this.r = r;
+		
+		Point axy;
+		Point bxy;
+		Point cxy;
+		
+		
+		if (r != null) {
+			axy = r.xy(a);
+			bxy = r.xy(b);
+			cxy = r.xy(c);
+		} else {
+			axy = a;
+			bxy = b;
+			cxy = c;
+		}
+		
+		this.ab = new Inequality(axy, bxy, ">");
+		if (!ab.contains(cxy)) ab.inequality = "<";
+		
+		this.bc = new Inequality(bxy, cxy, ">");
+		if (!bc.contains(axy)) bc.inequality = "<";
+		
+		this.ca = new Inequality(cxy, axy, ">");
+		if (!ca.contains(bxy)) ca.inequality = "<";
+		
+		
+		leftToRight = new ArrayList<Point>();
+		leftToRight.add(a);
+		leftToRight.add(b);
+		leftToRight.add(c);
+		Collections.sort(leftToRight, new sortByX());
+		
+		leftToRightXY = new ArrayList<Point>();
+		leftToRightXY.add(axy);
+		leftToRightXY.add(bxy);
+		leftToRightXY.add(cxy);
+		Collections.sort(leftToRightXY, new sortByX());
 	}
 	
 	// Meant to be overridden at object creation
@@ -53,7 +109,9 @@ public class Tri {
 	// Opacity and RGB values should only be between 0.0 and 1.0
 	// Must return a double array of length 4 {r, g, b, a}, may change this to just a Color object in the future but I want it this way to make sure the RGBA values are between 0.0 and 1.0
 	public double[] colorEquation(double x, double y) {
-		
+		// Default is black
+		double[] result = {0, 0, 0, 0};
+		return result;
 	}
 	
 	// Makes sure that the opacity is between 0.0 and 1.0 before using it
@@ -65,14 +123,14 @@ public class Tri {
 		double a;
 		
 		// If the color array is not properly defined, this will set unset color values to 0.0 as a default value
-		try r = color[0];
-		catch (Exception e) r = 0;
-		try g = color[1];
-		catch (Exception e) g = 0;
-		try b = color[2];
-		catch (Exception e) b = 0;
-		try a = color[3];
-		catch (Exception e) a = 0;
+		try {r = color[0];}
+		catch (Exception e) {r = 0;}
+		try {g = color[1];}
+		catch (Exception e) {g = 0;}
+		try {b = color[2];}
+		catch (Exception e) {b = 0;}
+		try {a = color[3];}
+		catch (Exception e) {a = 0;}
 		
 		// Checking each value to make sure they aren't greater than 1.0 or less than 0.0
 		if (r < 0) r = 0;
@@ -84,7 +142,7 @@ public class Tri {
 		if (a < 0) a = 0;
 		if (a > 1) a = 1;
 		
-		Color result = new Color(r, g, b, a);
+		Color result = new Color((float) r, (float) g, (float) b, (float) a);
 		return result;
 	}
 	
@@ -106,46 +164,83 @@ public class Tri {
 		Point middlexy = leftToRightXY.get(1);
 		Point rightxy = leftToRightXY.get(2);
 		
+		// There's probably a more efficient way to do this
+		// if (x <= middle.x) {
+			// double dist = (x - left.x);
+			// double ydist = (y - left.y);
+			// if (dist == 0 && ydist == 0) return left.z;
+			// else if (dist == 0) return left.z + ((y - left.y) / (middle.y - left.y)) * (middle.z - left.z);
+			// else if (ydist == 0) return left.z + ((x - left.x) / (middle.x - left.x)) * (middle.z - left.z);
+			// double percentA = dist / (right.x - left.x);
+			// double percentB = dist / (middle.x - left.x);
+			
+			// double y1 = left.y + (right.y - left.y) * percentA;
+			// double y2 = left.y + (middle.y - left.y) * percentB;
+			// double z1 = left.z + (right.z - left.z) * percentA;
+			// double z2 = left.z + (middle.z - left.z) * percentB;
+			
+			// double finalPercent = (y - y1) / (y2 - y1);
+			// double z = z1 + finalPercent * (z2 - z1);
+			// return z;
+		// } else {
+			// // Not sure if this is correct
+			// double distA = (x - left.x);
+			// double distB = (x - middle.x);
+			// double ydist = (right.y - y);
+			// if (distB == 0 && ydist == 0) return middle.z;
+			// else if (distB == 0) return middle.z + ((y - middle.y) / (right.y - middle.y)) * (right.z - middle.z);
+			// else if (ydist == 0) return middle.z + ((x - middle.x) / (right.x - middle.x)) * (right.z - middle.z);
+			// double percentA = distA / (right.x - left.x);
+			// double percentB = distB / (right.x - middle.x);
+			
+			// double y1 = left.y + (right.y - left.y) * percentA;
+			// double y2 = middle.y + (right.y - middle.y) * percentB;
+			// double z1 = left.z + (right.z - left.z) * percentA;
+			// double z2 = middle.z + (right.z - middle.z) * percentB;
+			
+			// double finalPercent = (y - y1) / (y2 - y1);
+			// double z = z1 + finalPercent * (z2 - z1);
+			// return z;
+		// }
+		
 		if (x <= middle.x) {
-			double dist = (x - leftxy.x);
+			double xpercent = (x - left.x) / (right.x - left.x);
+			double ypercent = (y - left.y) / (middle.y - left.y);
 			
-			double yslopeA = (left.y - middle.y) / (left.x - middle.x);
-			double zslopeA = (left.z - middle.z) / (left.x - middle.x);
-			double yslopeB = (left.y - right.y) / (left.x - right.x);
-			double zslopeB = (left.z - right.z) / (left.x - right.x);
+			if (xpercent == 0 && ypercent == 0) return left.z;
+			else if (xpercent == 0) return left.z + ypercent * (middle.z - left.z);
+			else if (ypercent == 0) return left.z + xpercent * (right.z - left.z);
 			
-			double x1 = left.x + dist;
-			double y1 = left.y + yslopeA * dist;
-			double z1 = left.z + zslopeA * dist;
+			double y1 = left.y + xpercent * (right.y - left.y);
+			double y2 = left.y + xpercent * (middle.y - left.y);
 			
-			double x2 = left.x + dist;
-			double y2 = left.y + yslopeB * dist;
-			double z2 = left.z + zslopeB * dist;
+			double z1 = left.z + xpercent * (right.z - left.z);
+			double z2 = left.z + xpercent * (middle.z - left.z);
 			
-			double finalPercent = dist(x, y, leftxy.x + x, leftxy.y + y) / dist(x1, y1, x2, y2);
-			double z = z1 + finalPercent * (z2 - z1); // Not sure if this should be (z2 - z1) or (z1 - z2), need to experiment, but I think (z2 - z1) is right
+			double finalPercent = (y - y1) / (y2 - y1);
+			double z = z1 + finalPercent * (z2 - z1);
 			return z;
 		} else {
-			double distA = (x - leftxy.x);
-			double distB = (x - middlexy.x);
+			// Works for all the edge cases I tested/need to work, but I'm still not fully sure if this is the right solution
+			double percentA = (x - left.x) / (right.x - left.x);
+			double percentB = (x - middle.x) / (right.x - middle.x);
 			
-			double yslopeA = (left.y - right.y) / (left.x - right.x);
-			double zslopeA = (left.z - right.z) / (left.x - right.x);
-			double yslopeB = (middle.y - right.y) / (middle.x - right.x);
-			double zslopeB = (middle.z - right.z) / (middle.x - right.x);
+			double xpercent = (right.x - x) / (right.x - middle.x);
+			double ypercent = (y - middle.y) / (right.y - middle.y);
 			
-			double x1 = left.x + distA;
-			double y1 = left.y + yslopeA * distA;
-			double z1 = left.z + zslopeA * distA;
+			if (xpercent == 0 && ypercent == 0) return middle.z;
+			else if (xpercent == 0) return middle.z + ypercent * (right.z - middle.z);
+			else if (ypercent == 0) return middle.z + xpercent * (right.z - middle.z);
 			
-			double x2 = middle.x + distB;
-			double y2 = middle.y + yslopeB * distB;
-			double z2 = middle.z + zslopeB * distB;
+			double y1 = left.y + percentA * (right.y - left.y);
+			double y2 = middle.y + percentB * (right.y - middle.y);
 			
+			double z1 = left.z + percentA * (right.z - left.z);
+			double z2 = middle.z + percentB * (right.z - middle.z);
 			
-			Point temp = r.xy(new Point(x1, y1, z1));
-			double finalPercent = dist(x, y, temp.x, temp.y) / dist(x1, y1, x2, y2);
-			double z = z1 + finalPercent * (z2 - z1); // Not sure if this should be (z2 - z1) or (z1 - z2), need to experiment, but I think (z2 - z1) is right
+			double finalPercent = (y - y1) / (y2 - y1);
+			double z = z1 + finalPercent * (z2 - z1);
+			return z;
 		}
 	}
 	

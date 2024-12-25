@@ -174,9 +174,9 @@ public class Main {
 		movement.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				test.a.x += 0.04;
-				test.b.x += 0.04;
-				test.c.x += 0.04;
+				// test.a.x += 0.04;
+				// test.b.x += 0.04;
+				// test.c.x += 0.04;
 				
 				millis++;
 			}

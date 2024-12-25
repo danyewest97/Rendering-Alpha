@@ -70,13 +70,11 @@ public class Cell {
 				Color colorA = subColors.get(0);
 				Color colorB = subColors.get(1);
 				double opacityA = (double) colorA.getAlpha();
-				double opacityB = (double) colorB.getAlpha();
-				double ratio = totalOpacity * (opacityA / opacityB);
 				totalOpacity -= totalOpacity * ((255 - opacityA) / 255);
 				
 				// System.out.println(opacityB);
 				
-				Color newColor = mixColors(colorA, colorB, ratio);
+				Color newColor = mixColors(colorA, colorB, totalOpacity);
 				subColors.set(0, newColor);
 				subColors.remove(1);
 			}
@@ -91,12 +89,10 @@ public class Cell {
 			Color colorA = colors.get(0);
 			Color colorB = colors.get(1);
 			double opacityA = (double) colorA.getAlpha();
-			double opacityB = (double) colorB.getAlpha();
-			double ratio = totalOpacity * (opacityA / opacityB);
 			totalOpacity -= totalOpacity * ((255 - opacityA) / 255);
 			
 			
-			Color newColor = mixColors(colorA, colorB, ratio);
+			Color newColor = mixColors(colorA, colorB, totalOpacity);
 			colors.set(0, newColor);
 			colors.remove(1);
 		}
@@ -105,29 +101,24 @@ public class Cell {
 	}
 	
 	// Mixes two colors, with ratio being the ratio of a:b (Color a to Color b)
-	public static Color mixColors(Color a, Color b, double ratio) {
-		if (ratio > 1) ratio = 1;
-		if (ratio < 0) ratio = 0;
-		if (Double.isNaN(ratio)) ratio = 1;
+	public static Color mixColors(Color a, Color b, double mult) {
 		
+		double redA = a.getRed();
+		double greenA = a.getGreen();
+		double blueA = a.getBlue();
+		double alphaA = a.getAlpha();
 		
-		double bRatio = 1 - ratio;
-		
-		double redA = a.getRed() * ratio;
-		double greenA = a.getGreen() * ratio;
-		double blueA = a.getBlue() * ratio;
-		double alphaA = a.getAlpha() * ratio;
-		
-		double redB = b.getRed() * bRatio;
-		double greenB = b.getGreen() * bRatio;
-		double blueB = b.getBlue() * bRatio;
-		double alphaB = b.getAlpha() * bRatio;
+		double redB = b.getRed() * mult;
+		double greenB = b.getGreen() * mult;
+		double blueB = b.getBlue() * mult;
+		double alphaB = b.getAlpha() * mult;
 		
 		// Adding 0.5 before casting to int to round to the nearest whole number
-		int finalRed = (int) (redA + redB + 0.5);
-		int finalGreen = (int) (greenA + greenB + 0.5);
-		int finalBlue = (int) (blueA + blueB + 0.5);
-		int finalAlpha = (int) (alphaA + alphaB + 0.5);
+		// Taking the minimum of the value or 255 to prevent having too large a color value
+		int finalRed = Math.min((int) (redA + redB + 0.5), 255);
+		int finalGreen = Math.min((int) (greenA + greenB + 0.5), 255);
+		int finalBlue = Math.min((int) (blueA + blueB + 0.5), 255);
+		int finalAlpha = Math.min((int) (alphaA + alphaB + 0.5), 255);
 		
 		
 		Color result = new Color(finalRed, finalGreen, finalBlue, finalAlpha);

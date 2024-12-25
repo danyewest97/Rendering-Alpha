@@ -70,7 +70,6 @@ public class Cell {
 				Color colorA = subColors.get(0);
 				Color colorB = subColors.get(1);
 				double opacityA = (double) colorA.getAlpha();
-				double oldOpacity = totalOpacity;
 				totalOpacity -= totalOpacity * ((255 - opacityA) / 255);
 				
 				
@@ -93,7 +92,6 @@ public class Cell {
 			Color colorA = colors.get(0);
 			Color colorB = colors.get(1);
 			double opacityA = (double) colorA.getAlpha();
-			double oldOpacity = totalOpacity;
 			totalOpacity -= totalOpacity * ((255 - opacityA) / 255);
 			
 			

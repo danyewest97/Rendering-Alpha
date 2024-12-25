@@ -17,6 +17,7 @@ import javax.swing.*;
 
 public class Main {
 	public static BufferedImage img;
+	public static int millis = 0;
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Test Window");
 		
@@ -41,8 +42,10 @@ public class Main {
 		Tri test = new Tri(x, y, z, null) {
 			@Override
 			public double[] colorEquation(double x, double y) {
-				double opacity = Math.min(Math.sqrt(Math.pow(x / 100, 2) + Math.pow(y / 100, 2)), 1);
-				double[] result = {0.0, 0.0, 1.0, opacity};
+				double opacity = Math.min(Math.sqrt(Math.pow(x / 450, 2) + Math.pow(y / 150, 2)), 1);
+				double red = Math.min(Math.sqrt(Math.pow(x / 300, 2) + Math.pow(y / 50, 2)), 1);
+				double green = Math.min(Math.sqrt(Math.pow(x / 400, 2) + Math.pow((100 - y) / 100, 2)), 1);
+				double[] result = {red, green, 1.0, opacity};
 				return result;
 			}
 		};
@@ -50,7 +53,8 @@ public class Main {
 		Tri test2 = new Tri(x2, y2, z2, null) {
 			@Override
 			public double[] colorEquation(double x, double y) {
-				double[] result = {1.0, 0.0, 0.0, 0.0};
+				double opacity = Math.abs(Math.sin((double) millis / 360));
+				double[] result = {1.0, 0.0, 0.0, opacity};
 				return result;
 			}
 		};
@@ -162,7 +166,7 @@ public class Main {
 				window.repaint();
 				
 			}
-		}, 0, 100);
+		}, 0, 16);
 		
 		
 		Timer movement = new Timer();
@@ -170,9 +174,13 @@ public class Main {
 		movement.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				test.a.x += 1;
+				test.a.x += 0.04;
+				test.b.x += 0.04;
+				test.c.x += 0.04;
+				
+				millis++;
 			}
-		}, 0, 16);
+		}, 0, 1);
 	}
 }
 

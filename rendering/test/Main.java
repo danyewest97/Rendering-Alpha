@@ -16,6 +16,7 @@ import java.awt.image.*;
 import javax.swing.*;
 
 public class Main {
+	public static BufferedImage img;
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Test Window");
 		
@@ -66,7 +67,7 @@ public class Main {
 		r.draw();
 		
 		
-		BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+		img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 		
 		
 		for (int i = 0; i < r.cells.length; i++) {

@@ -34,9 +34,9 @@ public class Main {
 		Point y = new Point(100, 0, 0);
 		Point z = new Point(0, 100, 0);
 		
-		Point x2 = new Point(0, 0, 10);
-		Point y2 = new Point(100, 0, 10);
-		Point z2 = new Point(0, 100, 10);
+		Point x2 = new Point(0, 0, 0);
+		Point y2 = new Point(100, 0, 0);
+		Point z2 = new Point(0, 100, 0);
 		
 		
 		Tri test = new Tri(x, y, z, null) {
@@ -140,7 +140,7 @@ public class Main {
 				
 				for (int i = 0; i < r.cells.length; i++) {
 					for (int j = 0; j < r.cells[i].length; j++) {
-						img.setRGB(i, j, Color.white.getRGB());
+						img.setRGB(i, j, r.background.getRGB());
 					}
 				}
 				
@@ -164,6 +164,8 @@ public class Main {
 				
 				pane.repaint();
 				window.repaint();
+				
+				// System.out.println(test2.getColor(10, 10).getAlpha() / (double) 255);
 				
 			}
 		}, 0, 16);

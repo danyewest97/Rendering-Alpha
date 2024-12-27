@@ -58,22 +58,42 @@ public class Cell {
 				}
 			}
 			
-			// May cause problems when two triangles have the same z-value but different opacities!! Needs to be fixed later
+			
+			ArrayList<Double> zValues = new ArrayList<Double>();
+			
+			// May cause problems when two triangles have the same z-value but different opacities!! Needs to be fixed later. UPDATE: Should be fixed!!
 			Collections.sort(points, new sortByZ());
 			for (int k = 0; k < points.size(); k++) {
-				subColors.add(points.get(k).color);
+				Point p = points.get(k);
+				subColors.add(p.color);
+				zValues.add(p.z);
 			}
+			
+			
+			for (int k = 0; k < subColors.size(); k++) {
+				ArrayList<Color> sameZValues = new ArrayList<Color>();
+				double startZ = zValues.get(k); 
+				sameZValues.add(subColors.get(k));
+				
+				while (k < subColors.size() - 1 && zValues.get(k + 1) == startZ) {
+					sameZValues.add(subColors.get(k + 1));
+					subColors.remove(k + 1);
+					zValues.remove(k + 1);
+				}
+				
+				Color blendedColor = mixColors(sameZValues);
+				subColors.set(k, blendedColor);
+			}
+			
 			// Adding the background, should have 0.0 opacity
 			subColors.add(background);
 			
 			while (subColors.size() > 1) {
 				Color colorA = subColors.get(0);
 				Color colorB = subColors.get(1);
-				double opacityA = (double) colorA.getAlpha();
-				totalOpacity -= totalOpacity * ((255 - opacityA) / 255);
 				
 				
-				Color newColor = mixColors(colorA, colorB, totalOpacity);
+				Color newColor = addColors(colorA, colorB);
 				subColors.set(0, newColor);
 				subColors.remove(1);
 			}
@@ -86,16 +106,13 @@ public class Cell {
 		}
 		
 		
-		// May cause problems when two triangles have the same z-value but different opacities!! Needs to be fixed later
-		double totalOpacity = 1;
+		// May cause problems when two triangles have the same z-value but different opacities!! Needs to be fixed later. UPDATE: Should be fixed!!
 		while (colors.size() > 1) {
 			Color colorA = colors.get(0);
 			Color colorB = colors.get(1);
-			double opacityA = (double) colorA.getAlpha();
-			totalOpacity -= totalOpacity * ((255 - opacityA) / 255);
 			
 			
-			Color newColor = mixColors(colorA, colorB, totalOpacity);
+			Color newColor = addColors(colorA, colorB);
 			colors.set(0, newColor);
 			colors.remove(1);
 		}
@@ -104,9 +121,9 @@ public class Cell {
 	}
 	
 	
-	// TODO: Make several colors mix properly!
-	// Mixes two colors, with ratio being the ratio of a:b (Color a to Color b)
-	public static Color mixColors(Color a, Color b, double ratio) {
+	// TODO: Make several colors mix properly! UPDATE: Finished
+	// Adds two colors by putting one on top of the other
+	public static Color addColors(Color a, Color b) {
 		double alphaA = a.getAlpha() / (double) 255;
 		double alphaB = b.getAlpha() / (double) 255;
 		
@@ -140,6 +157,71 @@ public class Cell {
 		
 		
 		Color result = new Color(finalRed, finalGreen, finalBlue, finalAlpha);
+		
+		return result;
+	}
+	
+	
+	
+	// Mixes 2 colors together instead of adding one on top of another, not currently in use
+	public static Color mixColors(Color a, Color b) {
+		double alphaA = a.getAlpha() / (double) 255;
+		double alphaB = b.getAlpha() / (double) 255;
+		
+		
+		
+		double redA = a.getRed();
+		double greenA = a.getGreen();
+		double blueA = a.getBlue();
+		
+		double redB = b.getRed();
+		double greenB = b.getGreen();
+		double blueB = b.getBlue();
+		
+		
+		int finalRed = Math.min((int) ((redA * alphaA + redB * alphaB) + 0.5), 255);
+		int finalGreen = Math.min((int) ((greenA  * alphaA + greenB * alphaB) + 0.5), 255);
+		int finalBlue = Math.min((int) ((blueA * alphaA  + blueB * alphaB) + 0.5), 255);
+		int finalAlpha = Math.min((int) ((255 * ((alphaA + alphaB) / 2)) + 0.5), 255);
+		
+		
+		Color result = new Color(finalRed, finalGreen, finalBlue, finalAlpha);
+		
+		return result;
+	}
+	
+	
+	// Mixes many colors together instead of adding one on top of another, not currently in use
+	public static Color mixColors(ArrayList<Color> colors) {
+		int numColors = colors.size();
+		double finalAlpha = 0;
+		double finalRed = 0;
+		double finalGreen = 0;
+		double finalBlue = 0;
+		double totalAlpha = 0;
+		
+		for (int i = 0; i < numColors; i++) {
+			totalAlpha += colors.get(i).getAlpha() / (double) 255;
+		}
+		
+		finalAlpha = totalAlpha/*  / (double) numColors */;
+		
+		for (int i = 0; i < numColors; i++) {
+			Color c = colors.get(i);
+			double alpha = c.getAlpha() / (double) 255;
+			double red = c.getRed() * (alpha / totalAlpha);
+			double green = c.getGreen() * (alpha / totalAlpha);
+			double blue = c.getBlue() * (alpha / totalAlpha);
+			
+			finalRed += red;
+			finalGreen += green;
+			finalBlue += blue;
+		}
+		
+		
+		
+		
+		Color result = new Color(Math.min((int) (finalRed + 0.5), 255), Math.min((int) (finalGreen + 0.5), 255), Math.min((int) (finalBlue + 0.5), 255), Math.min((int) ((finalAlpha * 255) + 0.5), 255));
 		
 		return result;
 	}

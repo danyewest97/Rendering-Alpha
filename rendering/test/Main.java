@@ -34,9 +34,9 @@ public class Main {
 		Point y = new Point(100, 0, 0);
 		Point z = new Point(0, 100, 0);
 		
-		Point x2 = new Point(0, 0, 0);
-		Point y2 = new Point(100, 0, 0);
-		Point z2 = new Point(0, 100, 0);
+		Point x2 = new Point(0, 0, 10);
+		Point y2 = new Point(100, 0, 10);
+		Point z2 = new Point(0, 100, 10);
 		
 		
 		Tri test = new Tri(x, y, z, null) {

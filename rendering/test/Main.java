@@ -130,6 +130,11 @@ public class Main {
 		frames.schedule(new TimerTask() {
 			@Override
 			public void run() {
+				// test2.a.x += 0.7;
+				// test2.b.x += 0.7;
+				// test2.c.x += 0.7;
+				
+				
 				img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 				
 				r.clear();

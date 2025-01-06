@@ -133,8 +133,14 @@ public class Renderer {
 			int y = coords[1];
 			
 			
-			if (cells[x][y] == null) cells[x][y] = new Cell(x, y);
-			cells[x][y].addTriangle(t);
+			if (x < width && x >= 0) {
+				if (y < height && y >= 0) {
+					if (cells[x][y] == null) {
+						cells[x][y] = new Cell(x, y);
+					}
+				cells[x][y].addTriangle(t);
+				}
+			}
 		}
 		return true;
 	}

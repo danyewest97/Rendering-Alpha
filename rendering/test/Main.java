@@ -112,27 +112,12 @@ public class Main {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponents(g);
-				g.drawImage(img, 0, 0, this);
-				g.dispose();
-			}
-		};
-		
-		pane.setVisible(true);
-		pane.setOpaque(false);
-		pane.setBounds(new Rectangle(1920, 1080));
-		
-		window.add(pane);
-		pane.repaint();
-		
-		
-		Timer frames = new Timer();
-		
-		frames.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				// test2.a.x += 0.7;
-				// test2.b.x += 0.7;
-				// test2.c.x += 0.7;
+				
+				//
+				test2.a.x += 0.7;
+				test2.b.x += 0.7;
+				test2.c.x += 0.7;
+				
 				
 				
 				img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
@@ -165,6 +150,31 @@ public class Main {
 						}
 					}
 				}
+				//
+				
+				
+				
+				
+				
+				g.drawImage(img, 0, 0, this);
+				g.dispose();
+			}
+		};
+		
+		pane.setVisible(true);
+		pane.setOpaque(false);
+		pane.setBounds(new Rectangle(1920, 1080));
+		
+		window.add(pane);
+		pane.repaint();
+		
+		
+		Timer frames = new Timer();
+		
+		frames.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				
 				
 				
 				pane.repaint();
@@ -173,7 +183,7 @@ public class Main {
 				// System.out.println(test2.getColor(10, 10).getAlpha() / (double) 255);
 				
 			}
-		}, 0, 16);
+		}, 0, 1);
 		
 		
 		Timer movement = new Timer();

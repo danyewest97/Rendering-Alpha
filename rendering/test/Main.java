@@ -113,7 +113,7 @@ public class Main {
 			public void paintComponent(Graphics g) {
 				super.paintComponents(g);
 				
-				//
+				// Change to a static draw() method later for putting everything in
 				test2.a.x += 0.7;
 				test2.b.x += 0.7;
 				test2.c.x += 0.7;

@@ -17,7 +17,21 @@ import javax.swing.*;
 
 public class Main {
 	public static BufferedImage img;
+	public static Tri test;
+	public static Tri test2;
+	public static Renderer r;
 	public static int millis = 0;
+	
+	
+	public static Point x = new Point(0, 0, 0);
+	public static Point y = new Point(100, 0, 0);
+	public static Point z = new Point(0, 100, 0);
+	
+	public static Point x2 = new Point(0, 0, 10);
+	public static Point y2 = new Point(100, 0, 10);
+	public static Point z2 = new Point(0, 100, 10);
+	
+	
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Test Window");
 		
@@ -30,72 +44,20 @@ public class Main {
 		
 		
 		
-		Point x = new Point(0, 0, 0);
-		Point y = new Point(100, 0, 0);
-		Point z = new Point(0, 100, 0);
-		
-		Point x2 = new Point(0, 0, 10);
-		Point y2 = new Point(100, 0, 10);
-		Point z2 = new Point(0, 100, 10);
-		
-		
-		Tri test = new Tri(x, y, z, null) {
-			@Override
-			public double[] colorEquation(double x, double y) {
-				double opacity = 1 - Math.min(Math.sqrt(Math.pow(x / 450, 2) + Math.pow(y / 150, 2)), 1);
-				double red = Math.min(Math.sqrt(Math.pow(x / 300, 2) + Math.pow(y / 50, 2)), 1);
-				double green = Math.min(Math.sqrt(Math.pow(x / 400, 2) + Math.pow((100 - y) / 100, 2)), 1);
-				double[] result = {red, green, 1.0, opacity};
-				return result;
-			}
-		};
-		
-		Tri test2 = new Tri(x2, y2, z2, null) {
-			@Override
-			public double[] colorEquation(double x, double y) {
-				double opacity = Math.abs(Math.sin((double) millis / 360));
-				double[] result = {1.0, 0.0, 0.0, opacity};
-				return result;
-			}
-		};
 		
 		
 		
-		Renderer r = new Renderer(500, 500) {
+		// Initializing the renderer
+		r = new Renderer(500, 500) {
 			@Override
 			public void draw() {
 				tri(test);
 				tri(test2);
 			}
 		};
-		r.draw();
 		
 		
-		img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 		
-		
-		for (int i = 0; i < r.cells.length; i++) {
-			for (int j = 0; j < r.cells[i].length; j++) {
-				img.setRGB(i, j, Color.white.getRGB());
-			}
-		}
-		
-		for (int i = 0; i < r.cells.length; i++) {
-			for (int j = 0; j < r.cells[i].length; j++) {
-				Cell c = r.cells[i][j];
-				if (c != null) {
-					Color color = c.calculateColor();
-					int cr = color.getRed();
-					int cg = color.getGreen();
-					int cb = color.getBlue();
-					int ca = color.getAlpha();
-					// System.out.print("|[" + i + "]" + "[" + j + "] = " + cr + ", " + cg + ", " + cb + ", " + ca + "| ");
-					
-					
-					img.setRGB(i, j, color.getRGB());
-				}
-			}
-		}
 		
 		
 		
@@ -113,46 +75,12 @@ public class Main {
 			public void paintComponent(Graphics g) {
 				super.paintComponents(g);
 				
-				// Change to a static draw() method later for putting everything in
-				test2.a.x += 0.7;
-				test2.b.x += 0.7;
-				test2.c.x += 0.7;
 				
 				
 				
-				img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
-				
-				r.clear();
-				r.draw();
-				
-				// System.out.println(r.triangles.get(0).a.x);
-				
-				
-				for (int i = 0; i < r.cells.length; i++) {
-					for (int j = 0; j < r.cells[i].length; j++) {
-						img.setRGB(i, j, r.background.getRGB());
-					}
-				}
-				
-				for (int i = 0; i < r.cells.length; i++) {
-					for (int j = 0; j < r.cells[i].length; j++) {
-						Cell c = r.cells[i][j];
-						if (c != null) {
-							Color color = c.calculateColor();
-							int cr = color.getRed();
-							int cg = color.getGreen();
-							int cb = color.getBlue();
-							int ca = color.getAlpha();
-							// System.out.print("|[" + i + "]" + "[" + j + "] = " + cr + ", " + cg + ", " + cb + ", " + ca + "| ");
-							
-							
-							img.setRGB(i, j, color.getRGB());
-						}
-					}
-				}
-				//
-				
-				
+				draw();
+				makeImage();
+				clear();
 				
 				
 				
@@ -199,8 +127,80 @@ public class Main {
 			}
 		}, 0, 1);
 	}
+	
+	
+	
+	// Where all the drawing instructions go
+	public static void draw() {
+		
+		
+		
+		test = new Tri(x, y, z, null) {
+			@Override
+			public double[] colorEquation(double x, double y) {
+				double opacity = 1 - Math.min(Math.sqrt(Math.pow(x / 450, 2) + Math.pow(y / 150, 2)), 1);
+				double red = Math.min(Math.sqrt(Math.pow(x / 300, 2) + Math.pow(y / 50, 2)), 1);
+				double green = Math.min(Math.sqrt(Math.pow(x / 400, 2) + Math.pow((100 - y) / 100, 2)), 1);
+				double[] result = {red, green, 1.0, opacity};
+				return result;
+			}
+		};
+		
+		test2 = new Tri(x2, y2, z2, null) {
+			@Override
+			public double[] colorEquation(double x, double y) {
+				double opacity = Math.abs(Math.sin((double) millis / 360));
+				double[] result = {1.0, 0.0, 0.0, opacity};
+				return result;
+			}
+		};
+		
+		
+		
+		x2.x += 0.7;
+		y2.x += 0.7;
+		z2.x += 0.7;
+	}
+	
+	
+	
+	public static void makeImage() {
+		img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+		
+		
+		r.draw();
+		
+		// System.out.println(r.triangles.get(0).a.x);
+		
+		
+		for (int i = 0; i < r.cells.length; i++) {
+			for (int j = 0; j < r.cells[i].length; j++) {
+				img.setRGB(i, j, r.background.getRGB());
+			}
+		}
+		
+		for (int i = 0; i < r.cells.length; i++) {
+			for (int j = 0; j < r.cells[i].length; j++) {
+				Cell c = r.cells[i][j];
+				if (c != null) {
+					Color color = c.calculateColor();
+					int cr = color.getRed();
+					int cg = color.getGreen();
+					int cb = color.getBlue();
+					int ca = color.getAlpha();
+					// System.out.print("|[" + i + "]" + "[" + j + "] = " + cr + ", " + cg + ", " + cb + ", " + ca + "| ");
+					
+					
+					img.setRGB(i, j, color.getRGB());
+				}
+			}
+		}
+	}
+	
+	public static void clear() {
+		r.clear();
+	}
 }
-
 
 
 

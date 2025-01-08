@@ -138,10 +138,18 @@ public class Main {
 		test = new Tri(x, y, z, null) {
 			@Override
 			public double[] colorEquation(double x, double y) {
-				double opacity = 1 - Math.min(Math.sqrt(Math.pow(x / 450, 2) + Math.pow(y / 150, 2)), 1);
-				double red = Math.min(Math.sqrt(Math.pow(x / 300, 2) + Math.pow(y / 50, 2)), 1);
-				double green = Math.min(Math.sqrt(Math.pow(x / 400, 2) + Math.pow((100 - y) / 100, 2)), 1);
-				double[] result = {red, green, 1.0, opacity};
+				// double opacity = 1 - Math.min(Math.sqrt(Math.pow(x / 450, 2) + Math.pow(y / 150, 2)), 1);
+				// double red = Math.min(Math.sqrt(Math.pow(x / 300, 2) + Math.pow(y / 50, 2)), 1);
+				// double green = Math.min(Math.sqrt(Math.pow(x / 400, 2) + Math.pow((100 - y) / 100, 2)), 1);
+				
+				// x and y values relative to the top left of the triangle
+				// double relX = x - a.x;
+				// double relY = y - a.y;
+				
+				Point center = new Point((a.x + b.x + c.x) / 3, (a.y + b.y + c.y) / 3, (a.z + b.z + c.z) / 3);
+				double dist = 1 - Math.abs(1 - (Math.sqrt(Math.pow(center.x - x, 2) + Math.pow(center.y - y, 2)) / 10));
+				
+				double[] result = {0.0, 0.0, dist, dist};
 				return result;
 			}
 		};
@@ -157,9 +165,9 @@ public class Main {
 		
 		
 		
-		x2.x += 0.7;
-		y2.x += 0.7;
-		z2.x += 0.7;
+		// x2.x += 0.7;
+		// y2.x += 0.7;
+		// z2.x += 0.7;
 	}
 	
 	

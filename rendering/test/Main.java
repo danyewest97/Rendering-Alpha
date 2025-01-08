@@ -143,13 +143,15 @@ public class Main {
 				// double green = Math.min(Math.sqrt(Math.pow(x / 400, 2) + Math.pow((100 - y) / 100, 2)), 1);
 				
 				// x and y values relative to the top left of the triangle
-				// double relX = x - a.x;
+				double relX = x - a.x;
 				// double relY = y - a.y;
+				double sin = Math.abs(Math.sin(relX / 10));
+				double[] result = {0.0, 0.0, sin, sin / 2};
 				
-				Point center = new Point((a.x + b.x + c.x) / 3, (a.y + b.y + c.y) / 3, (a.z + b.z + c.z) / 3);
-				double dist = 1 - Math.abs(1 - (Math.sqrt(Math.pow(center.x - x, 2) + Math.pow(center.y - y, 2)) / 10));
+				// Point center = new Point((a.x + b.x + c.x) / 3, (a.y + b.y + c.y) / 3, (a.z + b.z + c.z) / 3);
+				// double dist = 1 - Math.abs(1 - (Math.sqrt(Math.pow(center.x - x, 2) + Math.pow(center.y - y, 2)) / 10));
+				// double[] result = {0.0, 0.0, dist, dist};
 				
-				double[] result = {0.0, 0.0, dist, dist};
 				return result;
 			}
 		};

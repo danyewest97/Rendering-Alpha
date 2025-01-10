@@ -208,9 +208,9 @@ public class Main {
 					
 					Point p = r.toXYZ(new Point(x, y, 0), z);
 					
-					double relX = Math.max(p.x - a.x, 0);
-					double relY = Math.max(p.y - a.y, 0);
-					double relZ = Math.max(p.z - a.z, 0);
+					double relX = p.x - a.x;
+					double relY = p.y - a.y;
+					double relZ = p.z - a.z;
 					
 					// Hoping to keep the image rendered properly even when the triangle gets rotated
 					double xComponent = Math.sqrt(Math.pow(relX, 2) + Math.pow(relZ, 2));

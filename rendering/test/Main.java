@@ -36,6 +36,13 @@ public class Main {
 	public static Point z2 = new Point(0, 100, 10);
 	
 	
+	// Rotation of test2 for image texturing testing purposes
+	public static double rotX = 0;
+	public static double rotY = 0;
+	public static double rotZ = 0;
+	
+	
+	
 	public static BufferedImage testImage;
 	
 	
@@ -152,6 +159,8 @@ public class Main {
 				y2.rotateZ(center, 0.001);
 				z2.rotateZ(center, 0.001);
 				
+				rotZ += 0.001;
+				
 				millis++;
 			}
 		}, 0, 1);
@@ -206,22 +215,31 @@ public class Main {
 					double z = getZ(x, y);
 					
 					
+					Point center = new Point((x2.x + y2.x + z2.x) / 3, (x2.y + y2.y + z2.y) / 3, (x2.z + y2.z + z2.z) / 3);
+					
 					Point p = r.toXYZ(new Point(x, y, 0), z);
-					
-					double relX = p.x - a.x;
-					double relY = p.y - a.y;
-					double relZ = p.z - a.z;
-					
-					// Hoping to keep the image rendered properly even when the triangle gets rotated
-					double xComponent = Math.sqrt(Math.pow(relX, 2) + Math.pow(relZ, 2));
-					double yComponent = Math.sqrt(Math.pow(relY, 2) + Math.pow(relZ, 2));
+					p.rotateZ(center, -rotX);
+					p.rotateZ(center, -rotY);
+					p.rotateZ(center, -rotZ);
 					
 					
-					double hShift = 150;
-					double vShift = 150;
+					Point aRotated = a.clone();
+					aRotated.rotateZ(center,-rotX);
+					aRotated.rotateZ(center,-rotY);
+					aRotated.rotateZ(center,-rotZ);
 					
 					
-					c = new Color(testImage.getRGB((int) ((hShift + xComponent) % (width - 1)), (int) ((vShift + yComponent) % (height - 1))));
+					double relX = Math.max(p.x - aRotated.x, 0);
+					double relY = Math.max(p.y - aRotated.y, 0);
+					double relZ = Math.max(p.z - aRotated.z, 0);
+					
+					
+					
+					double hShift = 0;
+					double vShift = 0;
+					
+					
+					c = new Color(testImage.getRGB((int) ((hShift + relX) % (width - 1)), (int) ((vShift + relY) % (height - 1))));
 					
 					double[] newResult = {c.getRed() / (double) 255, c.getBlue() / (double) 255, c.getGreen() / (double) 255, c.getAlpha() / (double) 255};
 					result = newResult;

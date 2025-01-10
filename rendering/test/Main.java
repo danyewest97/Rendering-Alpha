@@ -144,7 +144,13 @@ public class Main {
 				
 				// x2.z += 0.04;
 				// y2.z += 0.04;
-				z2.z += 0.04;
+				// z2.z += 0.04;
+				
+				
+				Point center = ((x2.x + y2.x + z2.x) / 3, (x2.y + y2.y + z2.y) / 3, (x2.z + y2.z + z2.z) / 3);
+				x2.rotateZ(center, 0.01);
+				y2.rotateZ(center, 0.01);
+				z2.rotateZ(center, 0.01);
 				
 				millis++;
 			}

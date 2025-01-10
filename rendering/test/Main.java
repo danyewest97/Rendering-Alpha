@@ -138,12 +138,12 @@ public class Main {
 		movement.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				x2.x += 0.04;
-				y2.x += 0.04;
-				z2.x += 0.04;
+				// x2.x += 0.04;
+				// y2.x += 0.04;
+				// z2.x += 0.04;
 				
-				x2.z += 0.04;
-				y2.z += 0.04;
+				// x2.z += 0.04;
+				// y2.z += 0.04;
 				z2.z += 0.04;
 				
 				millis++;
@@ -192,33 +192,33 @@ public class Main {
 				double[] result = {1.0, 0.0, 0.0, 1.0};
 				
 				
-				// if (testImage != null) {
-					// double width = testImage.getWidth();
-					// double height = testImage.getHeight();
+				if (testImage != null) {
+					double width = testImage.getWidth();
+					double height = testImage.getHeight();
 					
 					
-					// double z = getZ(x, y);
+					double z = getZ(x, y);
 					
 					
-					// Point p = r.toXYZ(new Point(x, y, 0), z);
+					Point p = r.toXYZ(new Point(x, y, 0), z);
 					
-					// double relX = p.x - a.x;
-					// double relY = p.y - a.y;
-					// double relZ = p.z - a.z;
-					
-					
-					
-					// double hShift = 150;
-					// double vShift = 150;
+					double relX = p.x - a.x;
+					double relY = p.y - a.y;
+					double relZ = p.z - a.z;
 					
 					
-					// c = new Color(testImage.getRGB((int) ((hShift + relX) % width), (int) ((vShift + relX) % height)));
 					
-					// double[] newResult = {c.getRed() / (double) 255, c.getBlue() / (double) 255, c.getGreen() / (double) 255, c.getAlpha() / (double) 255};
-					// result = newResult;
-				// }
+					double hShift = 150;
+					double vShift = 150;
+					
+					
+					c = new Color(testImage.getRGB((int) ((hShift + relX) % width), (int) ((vShift + relX) % height)));
+					
+					double[] newResult = {c.getRed() / (double) 255, c.getBlue() / (double) 255, c.getGreen() / (double) 255, c.getAlpha() / (double) 255};
+					result = newResult;
+				}
 				
-				
+				result[0] -= 0.5;
 				return result;
 			}
 		};

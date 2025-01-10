@@ -74,43 +74,29 @@ public class Renderer {
 	public ArrayList<int[]> findPoints(Tri t) {
 		ArrayList<int[]> result = new ArrayList<int[]>();
 		
-		ArrayList<Double> xpoints = new ArrayList<Double>();
-		ArrayList<Double> ypoints = new ArrayList<Double>();
+		ArrayList<Point> xpoints = new ArrayList<Point>();
+		ArrayList<Point> ypoints = new ArrayList<Point>();
 		
-		double x1 = t.a.x;
-		double x2 = t.b.x;
-		double x3 = t.c.x;
-		
-		double y1 = t.a.y;
-		double y2 = t.b.y;
-		double y3 = t.c.y;
-		
-		xpoints.add(x1);
-		ypoints.add(y1);
+		xpoints.add(t.a);
+		xpoints.add(t.b);
+		xpoints.add(t.c);
 		
 		
-		// Manually sorting xpoints and ypoints arrays because I'm lazy AF (this is literally harder than using Collections.sort())
-		
-		if (x2 <= x1) xpoints.add(0, x2);
-		else xpoints.add(x2);
-		
-		if (y2 <= y1) ypoints.add(0, y2);
-		else xpoints.add(y2);
+		ypoints.add(t.a);
+		ypoints.add(t.b);
+		ypoints.add(t.c);
 		
 		
-		if (x3 <= xpoints.get(0)) xpoints.add(0, x3);
-		else if (x3 <= xpoints.get(1)) xpoints.add(1, x3);
-		else xpoints.add(x3);
+		Collections.sort(xpoints, new sortByX());
+		Collections.sort(ypoints, new sortByY());
 		
-		if (y3 <= ypoints.get(0)) ypoints.add(0, x3);
-		else if (y3 <= ypoints.get(1)) ypoints.add(1, x3);
-		else ypoints.add(y3);
+		
 		
 		// Using intValue() here because the xpoints and ypoints ArrayLists are arrays of Double objects instead of just doubles, meaning they can't be casted to an int the normal way
-		int left = (int) xpoints.get(0).intValue();
-		int right = (int) (xpoints.get(2).intValue() + 1);
-		int top = (int) ypoints.get(0).intValue();
-		int bottom = (int) (ypoints.get(2).intValue() + 1);
+		int left = (int) xy(xpoints.get(0)).x;
+		int right = (int) (xy(xpoints.get(2)).x + 1);
+		int top = (int) xy(ypoints.get(0)).y;
+		int bottom = (int) (xy(ypoints.get(2)).y + 1);
 		
 		// Double for loop, could slow down the code with large triangles but that's a risk we have to take (there may be/probably is a more efficient solution)
 		
@@ -205,4 +191,30 @@ public class Renderer {
 		
 		return result;
 	}
+	
+	
+	class sortByX implements Comparator<Point> {
+		public int compare(Point a, Point b){
+			Point axy = xy(a);
+			Point bxy = xy(b);
+			if (axy.x < bxy.x) return -1;
+			if (axy.x > bxy.x) return 1;
+			if (axy.x == bxy.x) return 0;
+			return 0;
+		}
+	}
+	
+	class sortByY implements Comparator<Point> {
+		public int compare(Point a, Point b){
+			Point axy = xy(a);
+			Point bxy = xy(b);
+			if (axy.y < bxy.y) return -1;
+			if (axy.y > bxy.y) return 1;
+			if (axy.y == bxy.y) return 0;
+			return 0;
+		}
+	}
 }
+
+
+

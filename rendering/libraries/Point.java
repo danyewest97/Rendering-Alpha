@@ -60,7 +60,7 @@ public class Point {
 			{0, sin, cos}
 		};
 		
-		double[][] result = mult(pointMatrix, rotationMatrix);
+		double[][] result = mult(rotationMatrix, pointMatrix);
 		x = result[0][0];
 		y = result[1][0];
 		z = result[2][0];
@@ -84,7 +84,7 @@ public class Point {
 			{-sin, 0, cos}
 		};
 		
-		double[][] result = mult(pointMatrix, rotationMatrix);
+		double[][] result = mult(rotationMatrix, pointMatrix);
 		x = result[0][0];
 		y = result[1][0];
 		z = result[2][0];
@@ -108,7 +108,7 @@ public class Point {
 			{0, 0, 1}
 		};
 		
-		double[][] result = mult(pointMatrix, rotationMatrix);
+		double[][] result = mult(rotationMatrix, pointMatrix);
 		x = result[0][0];
 		y = result[1][0];
 		z = result[2][0];

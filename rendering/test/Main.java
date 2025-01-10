@@ -15,6 +15,10 @@ import java.awt.image.*;
 
 import javax.swing.*;
 
+
+import java.io.*;
+import javax.imageio.*;
+
 public class Main {
 	public static BufferedImage img;
 	public static Tri test;
@@ -32,6 +36,9 @@ public class Main {
 	public static Point z2 = new Point(0, 100, 10);
 	
 	
+	public static BufferedImage testImage;
+	
+	
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Test Window");
 		
@@ -43,6 +50,18 @@ public class Main {
 		
 		
 		
+		
+		try {
+			// testImage = ImageIO.read(new File("rendering/test/prestige-porcelain-kindred.png"));
+			
+			
+			// File file = new File("rendering/test/prestige-porcelain-kindred.png");
+			File file = new File("rendering/test/testImage.png");
+			FileInputStream fis = new FileInputStream(file);
+			testImage = ImageIO.read(fis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		
 		
@@ -119,14 +138,22 @@ public class Main {
 		movement.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				// test.a.x += 0.04;
-				// test.b.x += 0.04;
-				// test.c.x += 0.04;
+				x2.x += 0.04;
+				y2.x += 0.04;
+				z2.x += 0.04;
+				
+				x2.z += 0.04;
+				y2.z += 0.04;
+				z2.z += 0.04;
 				
 				millis++;
 			}
 		}, 0, 1);
 	}
+	
+	
+	
+	
 	
 	
 	
@@ -159,8 +186,34 @@ public class Main {
 		test2 = new Tri(x2, y2, z2, null) {
 			@Override
 			public double[] colorEquation(double x, double y) {
-				double opacity = Math.abs(Math.sin((double) millis / 360));
-				double[] result = {1.0, 0.0, 0.0, opacity};
+				// double opacity = Math.abs(Math.sin((double) millis / 360));
+				// double[] result = {1.0, 0.0, 0.0, opacity};
+				Color c;
+				double[] result = {0.0, 0.0, 0.0, 0.0};
+				if (testImage != null) {
+					double width = testImage.getWidth();
+					double height = testImage.getHeight();
+					
+					
+					double z = getZ(x, y);
+					
+					
+					Point p = r.toXYZ(new Point(x, y, 0), z);
+					
+					double relX = p.x - a.x;
+					double relY = p.y - a.y;
+					double relZ = p.z - a.z;
+					
+					
+					
+					double hShift = 150;
+					double vShift = 150;
+					
+					
+					c = new Color(testImage.getRGB((int) ((hShift + relX) % width), (int) ((vShift + relX) % height)));
+					double[] newResult = {c.getRed() / (double) 255, c.getBlue() / (double) 255, c.getGreen() / (double) 255, c.getAlpha() / (double) 255};
+					result = newResult;
+				}
 				return result;
 			}
 		};
@@ -171,6 +224,15 @@ public class Main {
 		// y2.x += 0.7;
 		// z2.x += 0.7;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

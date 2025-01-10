@@ -49,9 +49,9 @@ public class Point {
 		double sin = Math.sin(radians);
 		
 		double[][] pointMatrix = {
-			{x},
-			{y},
-			{z}
+			{x - center.x},
+			{y - center.y},
+			{z - center.z}
 		};
 		
 		double[][] rotationMatrix = {
@@ -61,9 +61,9 @@ public class Point {
 		};
 		
 		double[][] result = mult(rotationMatrix, pointMatrix);
-		x = result[0][0];
-		y = result[1][0];
-		z = result[2][0];
+		x = result[0][0] + center.x;
+		y = result[1][0] + center.y;
+		z = result[2][0] + center.z;
 	}
 	
 	
@@ -73,9 +73,9 @@ public class Point {
 		double sin = Math.sin(radians);
 		
 		double[][] pointMatrix = {
-			{x},
-			{y},
-			{z}
+			{x - center.x},
+			{y - center.y},
+			{z - center.z}
 		};
 		
 		double[][] rotationMatrix = {
@@ -85,9 +85,9 @@ public class Point {
 		};
 		
 		double[][] result = mult(rotationMatrix, pointMatrix);
-		x = result[0][0];
-		y = result[1][0];
-		z = result[2][0];
+		x = result[0][0] + center.x;
+		y = result[1][0] + center.y;
+		z = result[2][0] + center.z;
 	}
 	
 	
@@ -97,9 +97,9 @@ public class Point {
 		double sin = Math.sin(radians);
 		
 		double[][] pointMatrix = {
-			{x},
-			{y},
-			{z}
+			{x - center.x},
+			{y - center.y},
+			{z - center.z}
 		};
 		
 		double[][] rotationMatrix = {
@@ -109,9 +109,9 @@ public class Point {
 		};
 		
 		double[][] result = mult(rotationMatrix, pointMatrix);
-		x = result[0][0];
-		y = result[1][0];
-		z = result[2][0];
+		x = result[0][0] + center.x;
+		y = result[1][0] + center.y;
+		z = result[2][0] + center.z;
 	}
 	
 	

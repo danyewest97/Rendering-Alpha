@@ -148,9 +148,9 @@ public class Main {
 				
 				
 				Point center = new Point((x2.x + y2.x + z2.x) / 3, (x2.y + y2.y + z2.y) / 3, (x2.z + y2.z + z2.z) / 3);
-				x2.rotateZ(center, 0.01);
-				y2.rotateZ(center, 0.01);
-				z2.rotateZ(center, 0.01);
+				x2.rotateZ(center, 0.001);
+				y2.rotateZ(center, 0.001);
+				z2.rotateZ(center, 0.001);
 				
 				millis++;
 			}
@@ -213,8 +213,8 @@ public class Main {
 					double relZ = Math.max(p.z - a.z, 0);
 					
 					// Hoping to keep the image rendered properly even when the triangle gets rotated
-					double xComponent = Math.sqrt(Math.pow(relX, 2) + Math.pow(relY, 2));
-					double yComponent = Math.sqrt(Math.pow(relY, 2) + Math.pow(relY, 2));
+					double xComponent = Math.sqrt(Math.pow(relX, 2) + Math.pow(relZ, 2));
+					double yComponent = Math.sqrt(Math.pow(relY, 2) + Math.pow(relZ, 2));
 					
 					
 					double hShift = 150;

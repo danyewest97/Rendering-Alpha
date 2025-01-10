@@ -16,7 +16,15 @@ public class Renderer {
 	public double camX = 250;
 	public double camY = 250;
 	public double camZ = 0;
-	public double zSensitivity = 0.003; // May not be necessary
+	
+	// Variables for rotating the camera
+	public Point centerOfRotation = new Point(0, 0, 50);
+	public double rotX = 0;
+	public double rotY = 0;
+	public double rotZ = 0;
+	
+	
+	public double zSensitivity = 0.003;
 	
 	public double width;
 	public double height;
@@ -61,11 +69,27 @@ public class Renderer {
 	}
 	
 	public boolean tri(Tri temp) {
-		// Tri t = new Tri(temp.a, temp.b, temp.c, this);
-		temp.changeRenderer(this);
-		this.triangles.add(temp);
-		ArrayList<int[]> coordsList = findPoints(temp);
-		dispersePoints(coordsList, temp);
+		Tri t = temp.clone(this);
+		
+		
+		// Adding rotation
+		t.a.rotateX(centerOfRotation, rotX);
+		t.a.rotateY(centerOfRotation, rotY);
+		t.a.rotateZ(centerOfRotation, rotZ);
+		
+		t.b.rotateX(centerOfRotation, rotX);
+		t.b.rotateY(centerOfRotation, rotY);
+		t.b.rotateZ(centerOfRotation, rotZ);
+		
+		t.c.rotateX(centerOfRotation, rotX);
+		t.c.rotateY(centerOfRotation, rotY);
+		t.c.rotateZ(centerOfRotation, rotZ);
+		
+		
+		Tri result = t.clone();
+		this.triangles.add(result);
+		ArrayList<int[]> coordsList = findPoints(result);
+		dispersePoints(coordsList, result);
 		return true;
 	}
 	
@@ -76,6 +100,22 @@ public class Renderer {
 		
 		ArrayList<Point> xpoints = new ArrayList<Point>();
 		ArrayList<Point> ypoints = new ArrayList<Point>();
+		
+		
+		// Adding rotation
+		// t.a.rotateX(centerOfRotation, rotX);
+		// t.a.rotateY(centerOfRotation, rotY);
+		// t.a.rotateZ(centerOfRotation, rotZ);
+		
+		// t.b.rotateX(centerOfRotation, rotX);
+		// t.b.rotateY(centerOfRotation, rotY);
+		// t.b.rotateZ(centerOfRotation, rotZ);
+		
+		// t.c.rotateX(centerOfRotation, rotX);
+		// t.c.rotateY(centerOfRotation, rotY);
+		// t.c.rotateZ(centerOfRotation, rotZ);
+		
+		
 		
 		xpoints.add(t.a);
 		xpoints.add(t.b);

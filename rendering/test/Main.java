@@ -145,13 +145,17 @@ public class Main {
 		movement.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				// x2.x += 0.04;
-				// y2.x += 0.04;
-				// z2.x += 0.04;
+				x2.x += 0.03;
+				y2.x += 0.03;
+				z2.x += 0.03;
 				
-				// x2.z += 0.04;
-				// y2.z += 0.04;
-				// z2.z += 0.04;
+				// x2.y += 0.03;
+				// y2.y += 0.03;
+				// z2.y += 0.03;
+				
+				x2.z += 0.04;
+				y2.z += 0.04;
+				z2.z += 0.04;
 				
 				
 				Point center = new Point((x2.x + y2.x + z2.x) / 3, (x2.y + y2.y + z2.y) / 3, (x2.z + y2.z + z2.z) / 3);
@@ -160,6 +164,9 @@ public class Main {
 				z2.rotateZ(center, 0.001);
 				
 				rotZ += 0.001;
+				
+				
+				r.rotZ += 0.001;
 				
 				millis++;
 			}

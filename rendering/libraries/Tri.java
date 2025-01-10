@@ -250,6 +250,27 @@ public class Tri {
 	}
 	
 	
+	@Override
+	public Tri clone() {
+		return new Tri(a, b, c, r) {
+			@Override
+			public double[] colorEquation(double x, double y) {
+				// return this.colorEquation(x, y); // Doesn't work in Java
+				// Make a wrapper class (i.e. a ColorEquation class) to hold the colorEquation method so it can be passed down between different clones of a Tri and copied to other Tris
+			}
+		};
+	}
+	
+	public Tri clone(Renderer r) {
+		return new Tri(a, b, c, r) {
+			@Override
+			public double[] colorEquation(double x, double y) {
+				// return this.colorEquation(x, y); // Doesn't work in Java
+			}
+		};
+	}
+	
+	
 	class sortByX implements Comparator<Point> {
 		public int compare(Point a, Point b){
 			if (a.x < b.x) return -1;

@@ -17,11 +17,18 @@ public class Tri {
 	
 	public Renderer r;
 	
+	public ColorEquation ce = new ColorEquation() {
+		public double[] color(double x, double y, Tri t) {
+			double[] result = {1.0, 1.0, 1.0, 1.0};
+			return result;
+		}
+	};
+	
 	public ArrayList<Point> leftToRight = new ArrayList<Point>(); // Array that contains the points in the triangle going from left-most to right-most, not sur if I want to keep
 	// because it could cause issues when updating a triangle, however I think it'll work for now
 	public ArrayList<Point> leftToRightXY = new ArrayList<Point>(); // Array that contains the points in the triangle going from left-most to right-most in 2D
 	
-	public Tri(Point a, Point b, Point c, Renderer r) {
+	public Tri(Point a, Point b, Point c, Renderer r, ColorEquation ce) {
 		this.a = a;
 		this.b = b;
 		this.c = c;
@@ -60,6 +67,8 @@ public class Tri {
 		leftToRightXY.add(bxy);
 		leftToRightXY.add(cxy);
 		Collections.sort(leftToRightXY, new sortByX());
+		
+		if (ce != null) this.ce = ce;
 	}
 	
 	public void changeRenderer(Renderer r) {
@@ -116,7 +125,7 @@ public class Tri {
 	
 	// Makes sure that the opacity is between 0.0 and 1.0 before using it
 	public Color getColor(double x, double y) {
-		double[] color = colorEquation(x, y);
+		double[] color = ce.color(x, y, this);
 		double r;
 		double g;
 		double b;
@@ -252,22 +261,7 @@ public class Tri {
 	
 	@Override
 	public Tri clone() {
-		return new Tri(a, b, c, r) {
-			@Override
-			public double[] colorEquation(double x, double y) {
-				// return this.colorEquation(x, y); // Doesn't work in Java
-				// Make a wrapper class (i.e. a ColorEquation class) to hold the colorEquation method so it can be passed down between different clones of a Tri and copied to other Tris
-			}
-		};
-	}
-	
-	public Tri clone(Renderer r) {
-		return new Tri(a, b, c, r) {
-			@Override
-			public double[] colorEquation(double x, double y) {
-				// return this.colorEquation(x, y); // Doesn't work in Java
-			}
-		};
+		return new Tri(a.clone(), b.clone(), c.clone(), r, ce);
 	}
 	
 	

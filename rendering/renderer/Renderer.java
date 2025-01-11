@@ -18,7 +18,7 @@ public class Renderer {
 	public double camZ = 0;
 	
 	// Variables for rotating the camera
-	public Point centerOfRotation = new Point(0, 0, 50);
+	public Point centerOfRotation = new Point(camX, camY, 50);
 	public double rotX = 0;
 	public double rotY = 0;
 	public double rotZ = 0;
@@ -60,19 +60,20 @@ public class Renderer {
 		// Drawing code here
 	}
 	
-	public boolean tri(Point a, Point b, Point c) {
-		Tri t = new Tri(a, b, c, this);
-		this.triangles.add(t);
-		ArrayList<int[]> coordsList = findPoints(t);
-		dispersePoints(coordsList, t);
-		return true;
-	}
+	
+	// Unused for now
+	// public boolean tri(Point a, Point b, Point c) {
+		// Tri t = new Tri(a, b, c, this, null);
+		// this.triangles.add(t);
+		// ArrayList<int[]> coordsList = findPoints(t);
+		// dispersePoints(coordsList, t);
+		// return true;
+	// }
+	
 	
 	public boolean tri(Tri temp) {
-		Tri t = temp.clone(this);
+		Tri t = temp.clone();
 		
-		
-		// Adding rotation
 		t.a.rotateX(centerOfRotation, rotX);
 		t.a.rotateY(centerOfRotation, rotY);
 		t.a.rotateZ(centerOfRotation, rotZ);
@@ -85,8 +86,8 @@ public class Renderer {
 		t.c.rotateY(centerOfRotation, rotY);
 		t.c.rotateZ(centerOfRotation, rotZ);
 		
-		
 		Tri result = t.clone();
+		result.changeRenderer(this);
 		this.triangles.add(result);
 		ArrayList<int[]> coordsList = findPoints(result);
 		dispersePoints(coordsList, result);

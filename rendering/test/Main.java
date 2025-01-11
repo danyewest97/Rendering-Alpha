@@ -86,7 +86,6 @@ public class Main {
 		
 		
 		
-		
 		// ArrayList<int[]> methodCheck = r.findPoints(test);
 		// for (int i = 0; i < methodCheck.size(); i++) {
 			// int[] coords = methodCheck.get(i);
@@ -145,28 +144,28 @@ public class Main {
 		movement.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				x2.x += 0.03;
-				y2.x += 0.03;
-				z2.x += 0.03;
+				// x2.x += 0.03;
+				// y2.x += 0.03;
+				// z2.x += 0.03;
 				
 				// x2.y += 0.03;
 				// y2.y += 0.03;
 				// z2.y += 0.03;
 				
-				x2.z += 0.04;
-				y2.z += 0.04;
-				z2.z += 0.04;
+				// x2.z += 0.04;
+				// y2.z += 0.04;
+				// z2.z += 0.04;
 				
 				
-				Point center = new Point((x2.x + y2.x + z2.x) / 3, (x2.y + y2.y + z2.y) / 3, (x2.z + y2.z + z2.z) / 3);
-				x2.rotateZ(center, 0.001);
-				y2.rotateZ(center, 0.001);
-				z2.rotateZ(center, 0.001);
+				// Point center = new Point((x2.x + y2.x + z2.x) / 3, (x2.y + y2.y + z2.y) / 3, (x2.z + y2.z + z2.z) / 3);
+				// x2.rotateZ(center, 0.001);
+				// y2.rotateZ(center, 0.001);
+				// z2.rotateZ(center, 0.001);
 				
-				rotZ += 0.001;
+				// rotZ += 0.001;
 				
 				
-				r.rotZ += 0.001;
+				r.rotY += 0.001;
 				
 				millis++;
 			}
@@ -184,15 +183,15 @@ public class Main {
 		
 		
 		
-		test = new Tri(x, y, z, null) {
+		test = new Tri(x, y, z, null, new ColorEquation() {
 			@Override
-			public double[] colorEquation(double x, double y) {
+			public double[] color(double x, double y, Tri t) {
 				// double opacity = 1 - Math.min(Math.sqrt(Math.pow(x / 450, 2) + Math.pow(y / 150, 2)), 1);
 				// double red = Math.min(Math.sqrt(Math.pow(x / 300, 2) + Math.pow(y / 50, 2)), 1);
 				// double green = Math.min(Math.sqrt(Math.pow(x / 400, 2) + Math.pow((100 - y) / 100, 2)), 1);
 				
 				// x and y values relative to the top left of the triangle
-				double relX = x - a.x;
+				double relX = x - t.a.x;
 				// double relY = y - a.y;
 				double sin = Math.abs(Math.sin(relX / 10));
 				double[] result = {0.0, 0.0, sin, sin / 2};
@@ -203,11 +202,11 @@ public class Main {
 				
 				return result;
 			}
-		};
+		});
 		
-		test2 = new Tri(x2, y2, z2, null) {
+		test2 = new Tri(x2, y2, z2, null, new ColorEquation() {
 			@Override
-			public double[] colorEquation(double x, double y) {
+			public double[] color(double x, double y, Tri t) {
 				// double opacity = Math.abs(Math.sin((double) millis / 360));
 				// double[] result = {1.0, 0.0, 0.0, opacity};
 				Color c;
@@ -218,21 +217,21 @@ public class Main {
 					double width = testImage.getWidth();
 					double height = testImage.getHeight();
 					
+					Point center = new Point((t.a.x + t.b.x + t.c.x) / 3, (t.a.y + t.b.y + t.c.y) / 3, (t.a.z + t.b.z + t.c.z) / 3);
 					
-					double z = getZ(x, y);
+					double z = t.getZ(x, y);
 					
 					
-					Point center = new Point((x2.x + y2.x + z2.x) / 3, (x2.y + y2.y + z2.y) / 3, (x2.z + y2.z + z2.z) / 3);
 					
 					Point p = r.toXYZ(new Point(x, y, 0), z);
-					p.rotateZ(center, -rotX);
-					p.rotateZ(center, -rotY);
+					p.rotateX(center, -rotX);
+					p.rotateY(center, -rotY);
 					p.rotateZ(center, -rotZ);
 					
 					
-					Point aRotated = a.clone();
-					aRotated.rotateZ(center,-rotX);
-					aRotated.rotateZ(center,-rotY);
+					Point aRotated = t.a.clone();
+					aRotated.rotateX(center,-rotX);
+					aRotated.rotateY(center,-rotY);
 					aRotated.rotateZ(center,-rotZ);
 					
 					
@@ -255,7 +254,7 @@ public class Main {
 				result[0] -= 0.5;
 				return result;
 			}
-		};
+		});
 		
 		
 		

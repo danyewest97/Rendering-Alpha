@@ -19,6 +19,9 @@ import javax.swing.*;
 import java.io.*;
 import javax.imageio.*;
 
+
+
+// getZ() may not be working properly with triangles that have been rotated!!!
 public class Main {
 	public static BufferedImage img;
 	public static Tri test;
@@ -211,6 +214,10 @@ public class Main {
 				// double[] result = {1.0, 0.0, 0.0, opacity};
 				Tri tRot = t.clone();
 				
+				
+				
+				
+				
 				tRot.a.rotateX(r.centerOfRotation, -r.rotX);
 				tRot.a.rotateY(r.centerOfRotation, -r.rotY);
 				tRot.a.rotateZ(r.centerOfRotation, -r.rotZ);
@@ -248,9 +255,10 @@ public class Main {
 					pRot.rotateZ(r.centerOfRotation, -r.rotZ);
 					
 					
-					pRot.rotateX(center, -rotX);
-					pRot.rotateY(center, -rotY);
-					pRot.rotateZ(center, -rotZ);
+					
+					// pRot.rotateX(center, -rotX);
+					// pRot.rotateY(center, -rotY);
+					// pRot.rotateZ(center, -rotZ);
 					
 					
 					Point aRotated = tRot.a.clone();
@@ -261,13 +269,13 @@ public class Main {
 					aRotated.rotateZ(center, -rotZ);
 					
 					
-					double relX = Math.sqrt(Math.pow(pRot.x - aRotated.x, 2) + Math.pow(pRot.z - aRotated.z, 2));
-					double relY = Math.sqrt(Math.pow(pRot.y - aRotated.y, 2) + Math.pow(pRot.z - aRotated.z, 2));
+					// double relX = Math.sqrt(Math.pow(pRot.x - aRotated.x, 2) + Math.pow(pRot.z - aRotated.z, 2));
+					// double relY = Math.sqrt(Math.pow(pRot.y - aRotated.y, 2) + Math.pow(pRot.z - aRotated.z, 2));
 					// double relZ = Math.abs(pRot.z - aRotated.z);
 					
 					
-					// double relX = Math.sqrt(Math.pow(p.x - t.a.x, 2) + Math.pow(p.z - t.a.z, 2));
-					// double relY = Math.sqrt(Math.pow(p.y - t.a.y, 2) + Math.pow(p.z - t.a.z, 2));
+					double relX = Math.abs(pRot.x);
+					double relY = Math.abs(pRot.y);
 					
 					
 					double hShift = 0;

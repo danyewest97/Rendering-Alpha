@@ -209,6 +209,22 @@ public class Main {
 			public double[] color(double x, double y, Tri t) {
 				// double opacity = Math.abs(Math.sin((double) millis / 360));
 				// double[] result = {1.0, 0.0, 0.0, opacity};
+				Tri tRot = t.clone();
+				
+				tRot.a.rotateX(r.centerOfRotation, -r.rotX);
+				tRot.a.rotateY(r.centerOfRotation, -r.rotY);
+				tRot.a.rotateZ(r.centerOfRotation, -r.rotZ);
+				
+				tRot.b.rotateX(r.centerOfRotation, -r.rotX);
+				tRot.b.rotateY(r.centerOfRotation, -r.rotY);
+				tRot.b.rotateZ(r.centerOfRotation, -r.rotZ);
+				
+				tRot.c.rotateX(r.centerOfRotation, -r.rotX);
+				tRot.c.rotateY(r.centerOfRotation, -r.rotY);
+				tRot.c.rotateZ(r.centerOfRotation, -r.rotZ);
+				
+				
+				
 				Color c;
 				double[] result = {1.0, 0.0, 0.0, 1.0};
 				
@@ -217,28 +233,41 @@ public class Main {
 					double width = testImage.getWidth();
 					double height = testImage.getHeight();
 					
-					Point center = new Point((t.a.x + t.b.x + t.c.x) / 3, (t.a.y + t.b.y + t.c.y) / 3, (t.a.z + t.b.z + t.c.z) / 3);
+					Point center = new Point((tRot.a.x + tRot.b.x + tRot.c.x) / 3, (tRot.a.y + tRot.b.y + tRot.c.y) / 3, (tRot.a.z + tRot.b.z + tRot.c.z) / 3);
 					
 					double z = t.getZ(x, y);
 					
 					
 					
 					Point p = r.toXYZ(new Point(x, y, 0), z);
-					p.rotateX(center, -rotX);
-					p.rotateY(center, -rotY);
-					p.rotateZ(center, -rotZ);
+					Point pRot = p.clone();
 					
 					
-					Point aRotated = t.a.clone();
-					aRotated.rotateX(center,-rotX);
-					aRotated.rotateY(center,-rotY);
-					aRotated.rotateZ(center,-rotZ);
+					pRot.rotateX(r.centerOfRotation, -r.rotX);
+					pRot.rotateY(r.centerOfRotation, -r.rotY);
+					pRot.rotateZ(r.centerOfRotation, -r.rotZ);
 					
 					
-					double relX = Math.max(p.x - aRotated.x, 0);
-					double relY = Math.max(p.y - aRotated.y, 0);
-					double relZ = Math.max(p.z - aRotated.z, 0);
+					pRot.rotateX(center, -rotX);
+					pRot.rotateY(center, -rotY);
+					pRot.rotateZ(center, -rotZ);
 					
+					
+					Point aRotated = tRot.a.clone();
+					
+					
+					aRotated.rotateX(center, -rotX);
+					aRotated.rotateY(center, -rotY);
+					aRotated.rotateZ(center, -rotZ);
+					
+					
+					double relX = Math.sqrt(Math.pow(pRot.x - aRotated.x, 2) + Math.pow(pRot.z - aRotated.z, 2));
+					double relY = Math.sqrt(Math.pow(pRot.y - aRotated.y, 2) + Math.pow(pRot.z - aRotated.z, 2));
+					// double relZ = Math.abs(pRot.z - aRotated.z);
+					
+					
+					// double relX = Math.sqrt(Math.pow(p.x - t.a.x, 2) + Math.pow(p.z - t.a.z, 2));
+					// double relY = Math.sqrt(Math.pow(p.y - t.a.y, 2) + Math.pow(p.z - t.a.z, 2));
 					
 					
 					double hShift = 0;

@@ -12,16 +12,18 @@ import java.awt.Color;
 
 // Note: ctrl + shift + q to comment/uncomment full blocks
 
+// 1/11/2025: Removing camera rotation and translation from the Renderer class
+
 public class Renderer {
 	public double camX = 250;
 	public double camY = 250;
 	public double camZ = 0;
 	
 	// Variables for rotating the camera
-	public Point centerOfRotation = new Point(camX, camY, 50);
-	public double rotX = 0;
-	public double rotY = 0;
-	public double rotZ = 0;
+	// public Point centerOfRotation = new Point(camX, camY, 50);
+	// public double rotX = 0;
+	// public double rotY = 0;
+	// public double rotZ = 0;
 	
 	
 	public double zSensitivity = 0.003;
@@ -73,24 +75,10 @@ public class Renderer {
 	
 	public boolean tri(Tri temp) {
 		Tri t = temp.clone();
-		
-		t.a.rotateX(centerOfRotation, rotX);
-		t.a.rotateY(centerOfRotation, rotY);
-		t.a.rotateZ(centerOfRotation, rotZ);
-		
-		t.b.rotateX(centerOfRotation, rotX);
-		t.b.rotateY(centerOfRotation, rotY);
-		t.b.rotateZ(centerOfRotation, rotZ);
-		
-		t.c.rotateX(centerOfRotation, rotX);
-		t.c.rotateY(centerOfRotation, rotY);
-		t.c.rotateZ(centerOfRotation, rotZ);
-		
-		Tri result = t.clone();
-		result.changeRenderer(this);
-		this.triangles.add(result);
-		ArrayList<int[]> coordsList = findPoints(result);
-		dispersePoints(coordsList, result);
+		t.changeRenderer(this);
+		this.triangles.add(t);
+		ArrayList<int[]> coordsList = findPoints(t);
+		dispersePoints(coordsList, t);
 		return true;
 	}
 	

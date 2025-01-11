@@ -212,23 +212,6 @@ public class Main {
 			public double[] color(double x, double y, Tri t) {
 				// double opacity = Math.abs(Math.sin((double) millis / 360));
 				// double[] result = {1.0, 0.0, 0.0, opacity};
-				Tri tRot = t.clone();
-				
-				
-				
-				
-				
-				tRot.a.rotateX(r.centerOfRotation, -r.rotX);
-				tRot.a.rotateY(r.centerOfRotation, -r.rotY);
-				tRot.a.rotateZ(r.centerOfRotation, -r.rotZ);
-				
-				tRot.b.rotateX(r.centerOfRotation, -r.rotX);
-				tRot.b.rotateY(r.centerOfRotation, -r.rotY);
-				tRot.b.rotateZ(r.centerOfRotation, -r.rotZ);
-				
-				tRot.c.rotateX(r.centerOfRotation, -r.rotX);
-				tRot.c.rotateY(r.centerOfRotation, -r.rotY);
-				tRot.c.rotateZ(r.centerOfRotation, -r.rotZ);
 				
 				
 				
@@ -240,19 +223,14 @@ public class Main {
 					double width = testImage.getWidth();
 					double height = testImage.getHeight();
 					
-					Point center = new Point((tRot.a.x + tRot.b.x + tRot.c.x) / 3, (tRot.a.y + tRot.b.y + tRot.c.y) / 3, (tRot.a.z + tRot.b.z + tRot.c.z) / 3);
+					Point center = new Point((t.a.x + t.b.x + t.c.x) / 3, (t.a.y + t.b.y + t.c.y) / 3, (t.a.z + t.b.z + t.c.z) / 3);
 					
 					double z = t.getZ(x, y);
 					
 					
 					
 					Point p = r.toXYZ(new Point(x, y, 0), z);
-					Point pRot = p.clone();
 					
-					
-					pRot.rotateX(r.centerOfRotation, -r.rotX);
-					pRot.rotateY(r.centerOfRotation, -r.rotY);
-					pRot.rotateZ(r.centerOfRotation, -r.rotZ);
 					
 					
 					
@@ -261,7 +239,7 @@ public class Main {
 					// pRot.rotateZ(center, -rotZ);
 					
 					
-					Point aRotated = tRot.a.clone();
+					Point aRotated = t.a.clone();
 					
 					
 					aRotated.rotateX(center, -rotX);
@@ -274,8 +252,8 @@ public class Main {
 					// double relZ = Math.abs(pRot.z - aRotated.z);
 					
 					
-					double relX = Math.abs(pRot.x);
-					double relY = Math.abs(pRot.y);
+					double relX = Math.abs(p.x);
+					double relY = Math.abs(p.y);
 					
 					
 					double hShift = 0;

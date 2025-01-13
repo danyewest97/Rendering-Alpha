@@ -92,7 +92,6 @@ public class Cell {
 					
 					Color c = tr.getColor(unrotated.x, unrotated.y);
 					points.add(new Point(unrotated.x, unrotated.y, z, c));
-					points.add(new Point(unrotated.x, unrotated.y, z, c));
 				}
 			}
 			

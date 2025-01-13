@@ -167,8 +167,8 @@ public class Main {
 				
 				// rotZ += 0.001;
 				
-				
-				r.rotY += 0.001;
+				// r.rotZ += 0.001;
+				r.rotY += 0.0001;
 				
 				millis++;
 			}

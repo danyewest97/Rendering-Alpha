@@ -254,9 +254,52 @@ public class Tri {
 	}
 	
 	
+	
+	public void recalculate() {
+		Point axy;
+		Point bxy;
+		Point cxy;
+		
+		
+		if (r != null) {
+			axy = r.xy(a);
+			bxy = r.xy(b);
+			cxy = r.xy(c);
+		} else {
+			axy = a;
+			bxy = b;
+			cxy = c;
+		}
+		
+		this.ab = new Inequality(axy, bxy, ">");
+		if (!ab.contains(cxy)) ab.inequality = "<";
+		
+		this.bc = new Inequality(bxy, cxy, ">");
+		if (!bc.contains(axy)) bc.inequality = "<";
+		
+		this.ca = new Inequality(cxy, axy, ">");
+		if (!ca.contains(bxy)) ca.inequality = "<";
+		
+		
+		leftToRight = new ArrayList<Point>();
+		leftToRight.add(a);
+		leftToRight.add(b);
+		leftToRight.add(c);
+		Collections.sort(leftToRight, new sortByX());
+		
+		leftToRightXY = new ArrayList<Point>();
+		leftToRightXY.add(axy);
+		leftToRightXY.add(bxy);
+		leftToRightXY.add(cxy);
+		Collections.sort(leftToRightXY, new sortByX());
+	}
+	
+	
+	
 	public double dist(double x1, double y1, double x2, double y2) {
 		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 	}
+	
 	
 	
 	@Override

@@ -14,6 +14,7 @@ public class Cell {
 	public Color background = new Color(255, 255, 255, 255); // Will add to constructor later to be inherited from parent Renderer object, for now just using white
 	public int x;
 	public int y;
+	public Renderer r;
 	
 	// I will add this later as a means to improve the accuracy of the opacity and obfuscation at sub-pixel levels at the cost of performance
 	// In the future (hopefully) my program will check subPoints points inside each cell for obfuscation, but for now I will just check the center of each cell
@@ -22,6 +23,13 @@ public class Cell {
 	public Cell(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.r = null;
+	}
+	
+	public Cell(int x, int y, Renderer r) {
+		this.x = x;
+		this.y = y;
+		this.r = r;
 	}
 	
 	public boolean addTriangle(Tri t) {
@@ -49,12 +57,42 @@ public class Cell {
 			ArrayList<Color> subColors = new ArrayList<Color>();
 			
 			for (int j = 0; j < tris.size(); j++) {
-				Tri t = tris.get(j);
+				Tri t = tris.get(j).clone();
+				Tri tr = t.clone(); // Unrotated t
+				
+				// Undoing rotation in renderer to get color
+				tr.a.rotateX(r.centerOfRotation, -r.rotX);
+				tr.a.rotateY(r.centerOfRotation, -r.rotY);
+				tr.a.rotateZ(r.centerOfRotation, -r.rotZ);
+				
+				
+				tr.b.rotateX(r.centerOfRotation, -r.rotX);
+				tr.b.rotateY(r.centerOfRotation, -r.rotY);
+				tr.b.rotateZ(r.centerOfRotation, -r.rotZ);
+				
+				
+				tr.c.rotateX(r.centerOfRotation, -r.rotX);
+				tr.c.rotateY(r.centerOfRotation, -r.rotY);
+				tr.c.rotateZ(r.centerOfRotation, -r.rotZ);
+				
+				
+				tr.recalculate(); // Should fix any errors in getZ() caused by rotation
+				
+				
 				Point check = new Point((double) this.x + xpoints[i], (double) this.y + ypoints[i], 0);
 				if (t.contains(check)) {
 					double z = t.getZ(check.x, check.y);
-					Color c = t.getColor(check.x, check.y);
-					points.add(new Point(check.x, check.y, z, c));
+					Point unrotated = new Point(check.x, check.y, z);
+					if (r != null) {
+						unrotated = r.toXYZ(new Point(check.x, check.y, 0), z);
+						unrotated.rotateX(r.centerOfRotation, -r.rotX);
+						unrotated.rotateY(r.centerOfRotation, -r.rotY);
+						unrotated.rotateZ(r.centerOfRotation, -r.rotZ);
+					}
+					
+					Color c = tr.getColor(unrotated.x, unrotated.y);
+					points.add(new Point(unrotated.x, unrotated.y, z, c));
+					points.add(new Point(unrotated.x, unrotated.y, z, c));
 				}
 			}
 			

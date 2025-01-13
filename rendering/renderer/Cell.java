@@ -87,13 +87,15 @@ public class Cell {
 					double z = t.getZ(check.x, check.y);
 					Point unrotated = new Point(check.x, check.y, z);
 					if (r != null) {
-						// unrotated = r.toXYZ(new Point(check.x, check.y, 0), z);
+						unrotated = r.toXYZ(unrotated, z);
+						double realZ = t.getZ(unrotated.x, unrotated.y);
+						unrotated = r.toXYZ(new Point(unrotated.x, unrotated.y, 0), realZ);
 						unrotated.rotateX(r.centerOfRotation, -r.rotX);
 						unrotated.rotateY(r.centerOfRotation, -r.rotY);
 						unrotated.rotateZ(r.centerOfRotation, -r.rotZ);
 					}
 					
-					Point pxy = unrotated;
+					Point pxy = r.xy(unrotated);
 					
 					Color c = tr.getColor(pxy.x, pxy.y);
 					points.add(new Point(pxy.x, pxy.y, z, c));

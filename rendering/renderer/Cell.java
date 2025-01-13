@@ -93,7 +93,7 @@ public class Cell {
 						unrotated.rotateZ(r.centerOfRotation, -r.rotZ);
 					}
 					
-					Point pxy = unrotated;
+					Point pxy = r.xy(unrotated);
 					
 					Color c = tr.getColor(pxy.x, pxy.y);
 					points.add(new Point(pxy.x, pxy.y, z, c));

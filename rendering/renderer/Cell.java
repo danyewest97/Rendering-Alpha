@@ -52,7 +52,7 @@ public class Cell {
 		
 		// TODO: Apply obfuscation here by checking the z-values of points    EDIT: Done!
 		for (int i = 0; i < xpoints.length /* <-- Will be changed to subPoints in the future */; i++) {
-			double totalOpacity = 1;
+			// double totalOpacity = 1;
 			ArrayList<Point> points = new ArrayList<Point>();
 			ArrayList<Color> subColors = new ArrayList<Color>();
 			
@@ -77,6 +77,7 @@ public class Cell {
 				
 				
 				tr.recalculate(); // Should fix any errors in getZ() caused by rotation
+				
 				
 				
 				Point check = new Point((double) this.x + xpoints[i], (double) this.y + ypoints[i], 0);

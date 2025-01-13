@@ -195,6 +195,7 @@ public class Main {
 				
 				// x and y values relative to the top left of the triangle
 				double relX = x - t.a.x;
+				
 				// double relY = y - a.y;
 				double sin = Math.abs(Math.sin(relX / 10));
 				double[] result = {0.0, 0.0, sin, sin / 2};
@@ -207,6 +208,10 @@ public class Main {
 			}
 		});
 		
+		
+		
+		
+		// TODO: Fix weird x value when using getColor() while the camera is rotated -- might be due to floating point precision error :(
 		test2 = new Tri(x2, y2, z2, null, new ColorEquation() {
 			@Override
 			public double[] color(double x, double y, Tri t) {
@@ -239,12 +244,12 @@ public class Main {
 					// pRot.rotateZ(center, -rotZ);
 					
 					
-					Point aRotated = t.a.clone();
+					// Point aRotated = t.a.clone();
 					
 					
-					aRotated.rotateX(center, -rotX);
-					aRotated.rotateY(center, -rotY);
-					aRotated.rotateZ(center, -rotZ);
+					// aRotated.rotateX(center, -rotX);
+					// aRotated.rotateY(center, -rotY);
+					// aRotated.rotateZ(center, -rotZ);
 					
 					
 					// double relX = Math.sqrt(Math.pow(pRot.x - aRotated.x, 2) + Math.pow(pRot.z - aRotated.z, 2));

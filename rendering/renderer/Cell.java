@@ -76,7 +76,7 @@ public class Cell {
 				tr.c.rotateZ(r.centerOfRotation, -r.rotZ);
 				
 				
-				
+				if ((int) tr.a.x != 0) System.out.println((int) tr.a.x);
 				
 				tr.recalculate(); // Should fix any errors in getZ() caused by rotation
 				t.recalculate();

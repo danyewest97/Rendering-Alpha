@@ -266,6 +266,12 @@ public class Renderer {
 			return 0;
 		}
 	}
+	
+	// class DoubleTri {
+		// Tri t;
+		// Tri tr;
+		// public DoubleTri(Tri t, Tri tr)
+	// }
 }
 
 

@@ -206,7 +206,7 @@ public class Main {
 				// double dist = 1 - Math.abs(1 - (Math.sqrt(Math.pow(center.x - x, 2) + Math.pow(center.y - y, 2)) / 10));
 				// double[] result = {0.0, 0.0, dist, dist};
 				
-				if ((int) x == 40 && (int) y == 40) System.out.println(sin);
+				// if ((int) x == 40 && (int) y == 40) System.out.println(sin);
 				
 				
 				return result;

@@ -38,7 +38,7 @@ public class Renderer {
 	
 	public Point[][] points; // 2D array of points that will be returned upon updating
 	public Cell[][] cells; // 2D array of cells that is used for calculating correct opacity and obfuscation
-	public ArrayList<Tri> triangles = new ArrayList<Tri>(); //
+	public ArrayList<DoubleTri> triangles = new ArrayList<DoubleTri>(); //
 	
 	public Color background = new Color(255, 255, 255, 255); // Will add to constructor later, for now white is default, also bg color should be opaque (0.0 opacity)
 	
@@ -53,7 +53,7 @@ public class Renderer {
 	}
 	
 	
-	public Renderer(double width, double height, ArrayList<Tri> triangles) {
+	public Renderer(double width, double height, ArrayList<DoubleTri> triangles) {
 		this.width = width;
 		this.height = height;
 		
@@ -81,27 +81,29 @@ public class Renderer {
 	public boolean tri(Tri temp) {
 		Tri t = temp.clone();
 		
+		DoubleTri dt = new DoubleTri(t, t);
 		
 		// Adding rotation
-		t.a.rotateX(centerOfRotation, rotX);
-		t.a.rotateY(centerOfRotation, rotY);
-		t.a.rotateZ(centerOfRotation, rotZ);
+		dt.t.a.rotateX(centerOfRotation, rotX);
+		dt.t.a.rotateY(centerOfRotation, rotY);
+		dt.t.a.rotateZ(centerOfRotation, rotZ);
 		
-		t.b.rotateX(centerOfRotation, rotX);
-		t.b.rotateY(centerOfRotation, rotY);
-		t.b.rotateZ(centerOfRotation, rotZ);
+		dt.t.b.rotateX(centerOfRotation, rotX);
+		dt.t.b.rotateY(centerOfRotation, rotY);
+		dt.t.b.rotateZ(centerOfRotation, rotZ);
 		
-		t.c.rotateX(centerOfRotation, rotX);
-		t.c.rotateY(centerOfRotation, rotY);
-		t.c.rotateZ(centerOfRotation, rotZ);
+		dt.t.c.rotateX(centerOfRotation, rotX);
+		dt.t.c.rotateY(centerOfRotation, rotY);
+		dt.t.c.rotateZ(centerOfRotation, rotZ);
 		
 		
-		t.recalculate();
+		// dt.t.recalculate();
 		
-		t.changeRenderer(this);
-		this.triangles.add(t);
-		ArrayList<int[]> coordsList = findPoints(t);
-		dispersePoints(coordsList, t);
+		dt.t.changeRenderer(this);
+		dt.tr.changeRenderer(this);
+		this.triangles.add(dt);
+		ArrayList<int[]> coordsList = findPoints(dt.t);
+		dispersePoints(coordsList, dt);
 		return true;
 	}
 	
@@ -163,7 +165,7 @@ public class Renderer {
 	}
 	
 	
-	public boolean dispersePoints(ArrayList<int[]> coordsList, Tri t) {
+	public boolean dispersePoints(ArrayList<int[]> coordsList, DoubleTri dt) {
 		for (int i = 0; i < coordsList.size(); i++) {
 			int[] coords = coordsList.get(i);
 			
@@ -176,7 +178,7 @@ public class Renderer {
 					if (cells[x][y] == null) {
 						cells[x][y] = new Cell(x, y, this);
 					}
-				cells[x][y].addTriangle(t);
+				cells[x][y].addTriangle(dt);
 				}
 			}
 		}
@@ -190,7 +192,7 @@ public class Renderer {
 	public boolean clear() {
 		this.points = new Point[(int) width][(int) height];
 		this.cells = new Cell[(int) width][(int) height];
-		triangles = new ArrayList<Tri>();
+		triangles = new ArrayList<DoubleTri>();
 		
 		return true;
 	}

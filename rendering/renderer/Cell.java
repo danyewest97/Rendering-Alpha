@@ -10,7 +10,7 @@ import java.awt.Color;
 
 // 1x1 box representing a pixel that stores info about pixels and is used to calculate things like opacity
 public class Cell {
-	public ArrayList<Tri> tris = new ArrayList<Tri>();
+	public ArrayList<DoubleTri> tris = new ArrayList<DoubleTri>();
 	public Color background = new Color(255, 255, 255, 255); // Will add to constructor later to be inherited from parent Renderer object, for now just using white
 	public int x;
 	public int y;
@@ -32,8 +32,8 @@ public class Cell {
 		this.r = r;
 	}
 	
-	public boolean addTriangle(Tri t) {
-		tris.add(t);
+	public boolean addTriangle(DoubleTri dt) {
+		tris.add(dt);
 		
 		
 		return true;
@@ -57,29 +57,29 @@ public class Cell {
 			ArrayList<Color> subColors = new ArrayList<Color>();
 			
 			for (int j = 0; j < tris.size(); j++) {
-				Tri t = tris.get(j).clone();
-				Tri tr = t.clone(); // Unrotated t
+				Tri t = tris.get(j).t;
+				Tri tr = tris.get(j).tr; // Unrotated t
 				
 				// Undoing rotation in renderer to get color
-				tr.a.rotateX(r.centerOfRotation, -r.rotX);
-				tr.a.rotateY(r.centerOfRotation, -r.rotY);
-				tr.a.rotateZ(r.centerOfRotation, -r.rotZ);
+				// tr.a.rotateX(r.centerOfRotation, -r.rotX);
+				// tr.a.rotateY(r.centerOfRotation, -r.rotY);
+				// tr.a.rotateZ(r.centerOfRotation, -r.rotZ);
 				
 				
-				tr.b.rotateX(r.centerOfRotation, -r.rotX);
-				tr.b.rotateY(r.centerOfRotation, -r.rotY);
-				tr.b.rotateZ(r.centerOfRotation, -r.rotZ);
+				// tr.b.rotateX(r.centerOfRotation, -r.rotX);
+				// tr.b.rotateY(r.centerOfRotation, -r.rotY);
+				// tr.b.rotateZ(r.centerOfRotation, -r.rotZ);
 				
 				
-				tr.c.rotateX(r.centerOfRotation, -r.rotX);
-				tr.c.rotateY(r.centerOfRotation, -r.rotY);
-				tr.c.rotateZ(r.centerOfRotation, -r.rotZ);
+				// tr.c.rotateX(r.centerOfRotation, -r.rotX);
+				// tr.c.rotateY(r.centerOfRotation, -r.rotY);
+				// tr.c.rotateZ(r.centerOfRotation, -r.rotZ);
 				
 				
-				if ((int) tr.a.x != 0) System.out.println((int) tr.a.x);
+				// if ((int) tr.a.x != 0) System.out.println((int) tr.a.x);
 				
-				tr.recalculate(); // Should fix any errors in getZ() caused by rotation
-				t.recalculate();
+				// tr.recalculate(); // Should fix any errors in getZ() caused by rotation
+				// t.recalculate();
 				
 				
 				Point check = new Point((double) this.x + xpoints[i], (double) this.y + ypoints[i], 0);
@@ -87,13 +87,13 @@ public class Cell {
 					double z = t.getZ(check.x, check.y);
 					Point unrotated = new Point(check.x, check.y, z);
 					if (r != null) {
-						// unrotated = r.toXYZ(new Point(check.x, check.y, 0), z);
+						unrotated = r.toXYZ(new Point(check.x, check.y, 0), z);
 						unrotated.rotateX(r.centerOfRotation, -r.rotX);
 						unrotated.rotateY(r.centerOfRotation, -r.rotY);
 						unrotated.rotateZ(r.centerOfRotation, -r.rotZ);
 					}
 					
-					Point pxy = r.xy(unrotated);
+					Point pxy = unrotated;
 					
 					Color c = tr.getColor(pxy.x, pxy.y);
 					points.add(new Point(pxy.x, pxy.y, z, c));

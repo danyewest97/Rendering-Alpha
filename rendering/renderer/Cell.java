@@ -87,7 +87,7 @@ public class Cell {
 					double z = t.getZ(check.x, check.y);
 					Point unrotated = new Point(check.x, check.y, z);
 					if (r != null) {
-						unrotated = r.toXYZ(new Point(check.x, check.y, 0), z);
+						// unrotated = r.toXYZ(new Point(check.x, check.y, 0), z);
 						unrotated.rotateX(r.centerOfRotation, -r.rotX);
 						unrotated.rotateY(r.centerOfRotation, -r.rotY);
 						unrotated.rotateZ(r.centerOfRotation, -r.rotZ);

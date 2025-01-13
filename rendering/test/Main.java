@@ -233,13 +233,13 @@ public class Main {
 					double width = testImage.getWidth();
 					double height = testImage.getHeight();
 					
-					Point center = new Point((t.a.x + t.b.x + t.c.x) / 3, (t.a.y + t.b.y + t.c.y) / 3, (t.a.z + t.b.z + t.c.z) / 3);
+					// Point center = new Point((t.a.x + t.b.x + t.c.x) / 3, (t.a.y + t.b.y + t.c.y) / 3, (t.a.z + t.b.z + t.c.z) / 3);
 					
-					double z = t.getZ(x, y);
+					// double z = t.getZ(x, y);
 					
 					
 					
-					Point p = r.toXYZ(new Point(x, y, 0), z);
+					Point p = new Point(x, y, 0);
 					
 					
 					

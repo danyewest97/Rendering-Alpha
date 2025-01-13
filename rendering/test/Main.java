@@ -89,6 +89,7 @@ public class Main {
 		
 		
 		
+		
 		// ArrayList<int[]> methodCheck = r.findPoints(test);
 		// for (int i = 0; i < methodCheck.size(); i++) {
 			// int[] coords = methodCheck.get(i);
@@ -168,7 +169,8 @@ public class Main {
 				// rotZ += 0.001;
 				
 				// r.rotZ += 0.001;
-				r.rotY += 0.0001;
+				// r.rotX += 0.001;
+				// r.rotY += 0.0005;
 				
 				millis++;
 			}

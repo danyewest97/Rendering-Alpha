@@ -16,6 +16,8 @@ import java.awt.Color;
 // 1/12/2025: Adding it back!
 // 1/12/2025: Fuck that this is too complicated to put in Renderer, I wanna just have a different class to handle the rotational stuff, but it would be SO cool to have it built in
 // 1/12/2025: Fuck yeah I figured it out!
+// 1/13/2025: Nope too hard maybe later idk, I widowwy had it all figured out with zSensitivity = 0 but as soon as I add zSensitivity it breaks, gonna try to fix for now but
+// might be easier and simpler and more elegant to put cam rotation in a different class
 
 public class Renderer {
 	public double camX = 250;
@@ -29,7 +31,7 @@ public class Renderer {
 	public double rotZ = 0;
 	
 	
-	public double zSensitivity = 0.003;
+	public double zSensitivity = 0.0003;
 	
 	public double width;
 	public double height;

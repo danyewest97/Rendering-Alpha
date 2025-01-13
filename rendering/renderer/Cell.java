@@ -77,7 +77,7 @@ public class Cell {
 				
 				
 				tr.recalculate(); // Should fix any errors in getZ() caused by rotation
-				
+				t.recalculate();
 				
 				
 				Point check = new Point((double) this.x + xpoints[i], (double) this.y + ypoints[i], 0);
@@ -85,14 +85,16 @@ public class Cell {
 					double z = t.getZ(check.x, check.y);
 					Point unrotated = new Point(check.x, check.y, z);
 					if (r != null) {
-						unrotated = r.toXYZ(new Point(check.x, check.y, 0), z);
+						// unrotated = r.toXYZ(new Point(check.x, check.y, 0), z);
 						unrotated.rotateX(r.centerOfRotation, -r.rotX);
 						unrotated.rotateY(r.centerOfRotation, -r.rotY);
 						unrotated.rotateZ(r.centerOfRotation, -r.rotZ);
 					}
 					
-					Color c = tr.getColor(unrotated.x, unrotated.y);
-					points.add(new Point(unrotated.x, unrotated.y, z, c));
+					Point pxy = r.xy(unrotated);
+					
+					Color c = tr.getColor(pxy.x, pxy.y);
+					points.add(new Point(pxy.x, pxy.y, z, c));
 				}
 			}
 			

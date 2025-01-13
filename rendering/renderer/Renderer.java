@@ -81,6 +81,7 @@ public class Renderer {
 	public boolean tri(Tri temp) {
 		Tri t = temp.clone();
 		
+		
 		// Adding rotation
 		t.a.rotateX(centerOfRotation, rotX);
 		t.a.rotateY(centerOfRotation, rotY);

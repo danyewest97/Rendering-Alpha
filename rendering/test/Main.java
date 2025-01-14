@@ -52,7 +52,7 @@ public class Main {
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Test Window");
 		
-		window.setSize(1920, 1080);
+		window.setSize(500, 500);
 		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
@@ -77,7 +77,7 @@ public class Main {
 		
 		
 		// Initializing the renderer
-		r = new Renderer(1920, 1080) {
+		r = new Renderer(500, 500) {
 			@Override
 			public void draw() {
 				tri(test);
@@ -120,7 +120,7 @@ public class Main {
 		
 		pane.setVisible(true);
 		pane.setOpaque(false);
-		pane.setBounds(new Rectangle(1920, 1080));
+		pane.setBounds(new Rectangle(500, 500));
 		
 		window.add(pane);
 		pane.repaint();
@@ -303,7 +303,7 @@ public class Main {
 	
 	
 	public static void makeImage() {
-		img = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
+		img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 		
 		
 		r.draw();

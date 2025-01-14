@@ -19,6 +19,7 @@ import java.awt.Color;
 // 1/13/2025: Nope too hard maybe later idk, I widowwy had it all figured out with zSensitivity = 0 but as soon as I add zSensitivity it breaks, gonna try to fix for now but
 // might be easier and simpler and more elegant to put cam rotation in a different class
 // 1/12/2025: I MADE IT WORK!!!
+// 1/14/2025: Java said "nuh uh" 😒
 
 public class Renderer {
 	// These should correspond to the top left of the screen, however, when calculating x and y values, these coordinates get shifted by half the width and half the height so that

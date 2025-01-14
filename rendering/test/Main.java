@@ -170,7 +170,9 @@ public class Main {
 				
 				// r.rotZ += 0.001;
 				// r.rotX += 0.001;
-				r.rotY += 0.0005;
+				// r.rotY += 0.0005;
+				
+				r.camX -= 0.01;
 				
 				millis++;
 			}

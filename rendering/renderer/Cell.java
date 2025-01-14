@@ -90,6 +90,7 @@ public class Cell {
 					
 					if (r != null) {
 						
+						// Doing this to reverse the effects of zSensitivity in the Renderer (x and y slowly shift away from what they should be when rotating when zSensitivity != 0)
 						Point ar = r.xy(t.a);
 						Point br = r.xy(t.b);
 						Point cr = r.xy(t.c);

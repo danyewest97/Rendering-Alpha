@@ -52,7 +52,7 @@ public class Main {
 	public static void main(String[] args) {
 		JFrame window = new JFrame("Test Window");
 		
-		window.setSize(500, 500);
+		window.setSize(1920, 1080);
 		window.setLocationRelativeTo(null);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
@@ -77,7 +77,7 @@ public class Main {
 		
 		
 		// Initializing the renderer
-		r = new Renderer(500, 500) {
+		r = new Renderer(1920, 1080) {
 			@Override
 			public void draw() {
 				tri(test);
@@ -168,11 +168,11 @@ public class Main {
 				
 				// rotZ += 0.001;
 				
-				// r.rotZ += 0.001;
 				r.rotX += 0.001;
 				// r.rotY += 0.0005;
+				// r.rotZ += 0.001;
 				
-				r.camX -= Math.sin((double) millis / 1000) * 0.1;
+				// r.camX -= Math.sin((double) millis / 1000) * 0.1;
 				// r.camZ -= 1;
 				
 				millis++;
@@ -303,7 +303,7 @@ public class Main {
 	
 	
 	public static void makeImage() {
-		img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+		img = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
 		
 		
 		r.draw();

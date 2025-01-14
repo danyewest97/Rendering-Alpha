@@ -81,7 +81,7 @@ public class Cell {
 				// tr.recalculate(); // Should fix any errors in getZ() caused by rotation
 				// t.recalculate();
 				
-				
+				// System.out.println((int) t.b.x);
 				
 				Point check = new Point((double) this.x + xpoints[i], (double) this.y + ypoints[i], 0);
 				if (t.contains(check)) {
@@ -112,9 +112,9 @@ public class Cell {
 						unrotated.y += r.camY - r.height/2;
 						
 						
-						unrotated.rotateX(r.centerOfRotation, -r.rotX);
-						unrotated.rotateY(r.centerOfRotation, -r.rotY);
 						unrotated.rotateZ(r.centerOfRotation, -r.rotZ);
+						unrotated.rotateY(r.centerOfRotation, -r.rotY);
+						unrotated.rotateX(r.centerOfRotation, -r.rotX);
 					}
 					
 					Point pxy = unrotated;

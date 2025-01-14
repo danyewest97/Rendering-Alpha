@@ -82,12 +82,29 @@ public class Cell {
 				// t.recalculate();
 				
 				
+				
 				Point check = new Point((double) this.x + xpoints[i], (double) this.y + ypoints[i], 0);
 				if (t.contains(check)) {
 					double z = t.getZ(check.x, check.y);
 					Point unrotated = new Point(check.x, check.y, z);
+					
 					if (r != null) {
-						unrotated = r.toXYZ(unrotated, z);
+						
+						Point ar = r.xy(t.a);
+						Point br = r.xy(t.b);
+						Point cr = r.xy(t.c);
+						
+						ar.z = t.a.z;
+						br.z = t.b.z;
+						cr.z = t.c.z;
+						
+						
+						Tri temp = new Tri(ar, br, cr, null, t.ce);
+						
+						double realZ = temp.getZ(check.x, check.y);
+						
+						
+						unrotated = r.toXYZ(unrotated, realZ);
 						unrotated.rotateX(r.centerOfRotation, -r.rotX);
 						unrotated.rotateY(r.centerOfRotation, -r.rotY);
 						unrotated.rotateZ(r.centerOfRotation, -r.rotZ);

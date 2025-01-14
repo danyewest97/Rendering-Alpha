@@ -105,7 +105,13 @@ public class Cell {
 						double realZ = temp.getZ(check.x, check.y);
 						
 						
-						unrotated = r.toXYZ(unrotated, realZ);
+						
+						
+						unrotated = r.toXYZ(unrotated, realZ + r.camZ);
+						unrotated.x += r.camX - r.width/2;
+						unrotated.y += r.camY - r.height/2;
+						
+						
 						unrotated.rotateX(r.centerOfRotation, -r.rotX);
 						unrotated.rotateY(r.centerOfRotation, -r.rotY);
 						unrotated.rotateZ(r.centerOfRotation, -r.rotZ);

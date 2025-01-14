@@ -169,11 +169,11 @@ public class Main {
 				// rotZ += 0.001;
 				
 				// r.rotZ += 0.001;
-				// r.rotX += 0.001;
+				r.rotX += 0.001;
 				// r.rotY += 0.0005;
 				
-				// r.camX -= 0.1;
-				r.camZ -= 1;
+				r.camX -= Math.sin((double) millis / 1000) * 0.1;
+				// r.camZ -= 1;
 				
 				millis++;
 			}
@@ -199,7 +199,7 @@ public class Main {
 				// double green = Math.min(Math.sqrt(Math.pow(x / 400, 2) + Math.pow((100 - y) / 100, 2)), 1);
 				
 				// x and y values relative to the top left of the triangle
-				double relX = x - t.a.x;
+				double relX = t.a.x - x;
 				
 				// double relY = y - a.y;
 				double sin = Math.abs(Math.sin(relX / 10));
@@ -242,7 +242,7 @@ public class Main {
 					
 					
 					
-					Point p = new Point(x - t.a.x, y - t.a.y, 0);
+					Point p = new Point(t.a.x - x, t.a.y - y, 0);
 					
 					
 					

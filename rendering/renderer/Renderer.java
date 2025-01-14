@@ -88,6 +88,7 @@ public class Renderer {
 		
 		DoubleTri dt = new DoubleTri(t, t);
 		
+		
 		// Adding rotation
 		dt.t.a.rotateX(centerOfRotation, rotX);
 		dt.t.a.rotateY(centerOfRotation, rotY);

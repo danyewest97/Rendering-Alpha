@@ -88,6 +88,7 @@ public class Cell {
 					double z = t.getZ(check.x, check.y);
 					Point unrotated = new Point(check.x, check.y, z);
 					
+					
 					if (r != null) {
 						
 						// Doing this to reverse the effects of zSensitivity in the Renderer (x and y slowly shift away from what they should be when rotating when zSensitivity != 0)

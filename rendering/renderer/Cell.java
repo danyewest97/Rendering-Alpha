@@ -108,7 +108,8 @@ public class Cell {
 						
 						
 						
-						unrotated = r.toXYZ(unrotated, realZ + r.camZ);
+						unrotated = r.toXYZ(unrotated, realZ);
+						unrotated.z += r.camZ;
 						unrotated.x += r.camX - r.width/2;
 						unrotated.y += r.camY - r.height/2;
 						
@@ -230,7 +231,7 @@ public class Cell {
 	
 	
 	
-	// Mixes 2 colors together instead of adding one on top of another, not currently in use
+	
 	public static Color mixColors(Color a, Color b) {
 		double alphaA = a.getAlpha() / (double) 255;
 		double alphaB = b.getAlpha() / (double) 255;

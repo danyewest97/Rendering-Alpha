@@ -169,10 +169,10 @@ public class Main {
 				// rotZ += 0.001;
 				
 				r.rotX += 0.001;
-				// r.rotY += 0.0005;
-				// r.rotZ += 0.001;
+				r.rotY += 0.0005;
+				r.rotZ += 0.001;
 				
-				// r.camX -= Math.sin((double) millis / 1000) * 0.1;
+				r.camX -= Math.sin((double) millis / 1000) * 0.1;
 				// r.camZ -= 1;
 				
 				millis++;

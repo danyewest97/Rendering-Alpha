@@ -199,10 +199,10 @@ public class Main {
 				// double green = Math.min(Math.sqrt(Math.pow(x / 400, 2) + Math.pow((100 - y) / 100, 2)), 1);
 				
 				// x and y values relative to the top left of the triangle
-				double relX = t.a.x - x;
+				double relX = x - t.a.x;
+				double relY = y - t.a.y;
 				
-				// double relY = y - a.y;
-				double sin = Math.abs(Math.sin(relX / 10));
+				double sin = Math.abs(Math.sin(relX + relY / 10));
 				double[] result = {0.0, 0.0, sin, sin / 2};
 				
 				// Point center = new Point((a.x + b.x + c.x) / 3, (a.y + b.y + c.y) / 3, (a.z + b.z + c.z) / 3);
@@ -269,7 +269,7 @@ public class Main {
 					double relY = Math.abs(p.y);
 					
 					
-					double hShift = 0;
+					double hShift = 150;
 					double vShift = 0;
 					
 					

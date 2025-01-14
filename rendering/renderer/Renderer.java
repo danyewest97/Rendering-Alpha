@@ -21,8 +21,11 @@ import java.awt.Color;
 // 1/12/2025: I MADE IT WORK!!!
 
 public class Renderer {
-	public double camX = 250;
-	public double camY = 250;
+	// These should correspond to the top left of the screen, however, when calculating x and y values, these coordinates get shifted by half the width and half the height so that
+	// they actually end up being the center of the screen (0, 0 = middle of screen instead of top left)
+	// To change this, remove the width/2 and height/2 in the xy() and toXYZ() function
+	public double camX = 0;
+	public double camY = 0;
 	public double camZ = 0;
 	
 	// Variables for rotating the camera
@@ -96,6 +99,34 @@ public class Renderer {
 		dt.t.c.rotateX(centerOfRotation, rotX);
 		dt.t.c.rotateY(centerOfRotation, rotY);
 		dt.t.c.rotateZ(centerOfRotation, rotZ);
+		
+		
+		// Applying camera positioning
+		dt.t.a.x -= camX;
+		dt.t.a.y -= camY;
+		dt.t.a.z -= camZ;
+		
+		dt.t.b.x -= camX;
+		dt.t.b.y -= camY;
+		dt.t.b.z -= camZ;
+		
+		dt.t.c.x -= camX;
+		dt.t.c.y -= camY;
+		dt.t.c.z -= camZ;
+		
+		
+		
+		dt.tr.a.x -= camX;
+		dt.tr.a.y -= camY;
+		dt.tr.a.z -= camZ;
+		   
+		dt.tr.b.x -= camX;
+		dt.tr.b.y -= camY;
+		dt.tr.b.z -= camZ;
+		   
+		dt.tr.c.x -= camX;
+		dt.tr.c.y -= camY;
+		dt.tr.c.z -= camZ;
 		
 		
 		// dt.t.recalculate();
@@ -202,8 +233,8 @@ public class Renderer {
 	// For projecting points onto the 2D plane of the camera (or reversing the projection)
 	
 	public Point xy(Point point) {
-		double rx = camX;
-		double ry = camY;
+		double rx = camX + width/2;
+		double ry = camY + height/2;
 		
 		double x = point.x;
 		double y = point.y;
@@ -231,12 +262,12 @@ public class Renderer {
 		double ry = y;
 		
 		
-		rx += p * camX;
-		ry += p * camY;
+		rx += p * (camX + width/2);
+		ry += p * (camY + height/2);
 
 		
-		rx -= (camX);
-		ry -= (camY);
+		rx -= (camX + width/2);
+		ry -= (camY + height/2);
 		
 		rx /= p;
 		ry /= p;

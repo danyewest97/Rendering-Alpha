@@ -172,7 +172,8 @@ public class Main {
 				// r.rotX += 0.001;
 				// r.rotY += 0.0005;
 				
-				r.camX -= 0.01;
+				// r.camX -= 0.1;
+				r.camZ -= 1;
 				
 				millis++;
 			}
@@ -241,7 +242,7 @@ public class Main {
 					
 					
 					
-					Point p = new Point(x, y, 0);
+					Point p = new Point(x - t.a.x, y - t.a.y, 0);
 					
 					
 					

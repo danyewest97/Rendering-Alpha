@@ -87,8 +87,12 @@ public class Main {
 		
 		
 		
+		r.camX -= r.width / 2;
 		
-		
+
+
+
+
 		
 		// ArrayList<int[]> methodCheck = r.findPoints(test);
 		// for (int i = 0; i < methodCheck.size(); i++) {
@@ -172,7 +176,7 @@ public class Main {
 				// r.rotY += 0.0005;
 				// r.rotZ += 0.001;
 				
-				r.camX -= Math.sin((double) millis / 1000) * 0.1;
+				// r.camX -= Math.sin((double) millis / 1000) * 0.1;
 				// r.camZ -= 1;
 				
 				millis++;
@@ -240,6 +244,9 @@ public class Main {
 					
 					// double z = t.getZ(x, y);
 					
+
+
+					
 					
 					
 					Point p = new Point(t.a.x - x, t.a.y - y, 0);
@@ -283,6 +290,7 @@ public class Main {
 				return result;
 			}
 		});
+		
 		
 		
 		

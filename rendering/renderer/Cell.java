@@ -90,24 +90,27 @@ public class Cell {
 					
 					if (r != null) {
 						
+						// EDIT: Deprecated for now, unable to confirm whether or not just using unrotated = r.toXYZ(unrotated, z + r.camZ), as seen below this comment chunk, yields
+						// proper results, as it appears to stop working correctly when the triangle is close to parallel to the camera view, but I'm unsure if this is just an illusion
+						// or if it is actually unintended behavior
 						// Doing this to reverse the effects of zSensitivity in the Renderer (x and y slowly shift away from what they should be when rotating when zSensitivity != 0)
-						Point ar = r.xy(t.a);
-						Point br = r.xy(t.b);
-						Point cr = r.xy(t.c);
+						// Point ar = r.xy(t.a);
+						// Point br = r.xy(t.b);
+						// Point cr = r.xy(t.c);
 						
-						ar.z = t.a.z;
-						br.z = t.b.z;
-						cr.z = t.c.z;
-						
-						
-						Tri temp = new Tri(ar, br, cr, null, t.ce);
-						
-						double realZ = temp.getZ(check.x, check.y);
+						// ar.z = t.a.z;
+						// br.z = t.b.z;
+						// cr.z = t.c.z;
 						
 						
+						// Tri temp = new Tri(ar, br, cr, null, t.ce);
+						
+						// double realZ = temp.getZ(check.x, check.y);
 						
 						
-						unrotated = r.toXYZ(unrotated, realZ + r.camZ);
+						
+						// Doing this to reverse the effects of zSensitivity in the Renderer (x and y slowly shift away from what they should be when rotating when zSensitivity != 0)
+						unrotated = r.toXYZ(unrotated, z + r.camZ);
 						unrotated.x += r.camX - r.width/2;
 						unrotated.y += r.camY - r.height/2;
 						
@@ -257,7 +260,7 @@ public class Cell {
 	}
 	
 	
-	// Mixes many colors together instead of adding one on top of another, not currently in use
+	// Mixes many colors together instead of adding one on top of another
 	public static Color mixColors(ArrayList<Color> colors) {
 		int numColors = colors.size();
 		double finalAlpha = 0;

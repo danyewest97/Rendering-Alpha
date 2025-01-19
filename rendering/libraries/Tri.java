@@ -161,96 +161,38 @@ public class Tri {
 		return (ab.contains(p) && bc.contains(p) && ca.contains(p));
 	}
 	
-	// I need to go through and comment all of this later
-	// No f_cking clue if this works right or not lmao
-	// Precondition: Point should be contained within the 2D coordinates of the triangle
+
+
 	public double getZ(double x, double y) {
-		Point left = leftToRight.get(0);
-		Point middle = leftToRight.get(1);
-		Point right = leftToRight.get(2);
+		// (Had to look this one up, uses vector math stuff that I don't fully understand)
+		// Algorithm for finding the equation for a plane given three points from GeeksForGeeks
+		double x1 = a.x;
+		double y1 = a.y;
+		double z1 = a.z;
+
+		double x2 = b.x;
+		double y2 = b.y;
+		double z2 = b.z;
+
+		double x3 = c.x;
+		double y3 = c.y;
+		double z3 = c.z;
+
+
+		double a1 = x2 - x1;
+		double b1 = y2 - y1;
+		double c1 = z2 - z1;
+		double a2 = x3 - x1;
+		double b2 = y3 - y1;
+		double c2 = z3 - z1;
+		double a = b1 * c2 - b2 * c1;
+		double b = a2 * c1 - a1 * c2;
+		double c = a1 * b2 - b1 * a2;
+		double d = (- a * x1 - b * y1 - c * z1);
 		
-		Point leftxy = leftToRightXY.get(0);
-		Point middlexy = leftToRightXY.get(1);
-		Point rightxy = leftToRightXY.get(2);
-		
-		// There's probably a more efficient way to do this
-		// if (x <= middle.x) {
-			// double dist = (x - left.x);
-			// double ydist = (y - left.y);
-			// if (dist == 0 && ydist == 0) return left.z;
-			// else if (dist == 0) return left.z + ((y - left.y) / (middle.y - left.y)) * (middle.z - left.z);
-			// else if (ydist == 0) return left.z + ((x - left.x) / (middle.x - left.x)) * (middle.z - left.z);
-			// double percentA = dist / (right.x - left.x);
-			// double percentB = dist / (middle.x - left.x);
-			
-			// double y1 = left.y + (right.y - left.y) * percentA;
-			// double y2 = left.y + (middle.y - left.y) * percentB;
-			// double z1 = left.z + (right.z - left.z) * percentA;
-			// double z2 = left.z + (middle.z - left.z) * percentB;
-			
-			// double finalPercent = (y - y1) / (y2 - y1);
-			// double z = z1 + finalPercent * (z2 - z1);
-			// return z;
-		// } else {
-			// // Not sure if this is correct
-			// double distA = (x - left.x);
-			// double distB = (x - middle.x);
-			// double ydist = (right.y - y);
-			// if (distB == 0 && ydist == 0) return middle.z;
-			// else if (distB == 0) return middle.z + ((y - middle.y) / (right.y - middle.y)) * (right.z - middle.z);
-			// else if (ydist == 0) return middle.z + ((x - middle.x) / (right.x - middle.x)) * (right.z - middle.z);
-			// double percentA = distA / (right.x - left.x);
-			// double percentB = distB / (right.x - middle.x);
-			
-			// double y1 = left.y + (right.y - left.y) * percentA;
-			// double y2 = middle.y + (right.y - middle.y) * percentB;
-			// double z1 = left.z + (right.z - left.z) * percentA;
-			// double z2 = middle.z + (right.z - middle.z) * percentB;
-			
-			// double finalPercent = (y - y1) / (y2 - y1);
-			// double z = z1 + finalPercent * (z2 - z1);
-			// return z;
-		// }
-		
-		if (x <= middle.x) {
-			double xpercent = (x - left.x) / (right.x - left.x);
-			double ypercent = (y - left.y) / (middle.y - left.y);
-			
-			if (xpercent == 0 && ypercent == 0) return left.z;
-			else if (xpercent == 0) return left.z + ypercent * (middle.z - left.z);
-			else if (ypercent == 0) return left.z + xpercent * (right.z - left.z);
-			
-			double y1 = left.y + xpercent * (right.y - left.y);
-			double y2 = left.y + xpercent * (middle.y - left.y);
-			
-			double z1 = left.z + xpercent * (right.z - left.z);
-			double z2 = left.z + xpercent * (middle.z - left.z);
-			
-			double finalPercent = (y - y1) / (y2 - y1);
-			double z = z1 + finalPercent * (z2 - z1);
-			return z;
-		} else {
-			// Works for all the edge cases I tested/need to work, but I'm still not fully sure if this is the right solution
-			double percentA = (x - left.x) / (right.x - left.x);
-			double percentB = (x - middle.x) / (right.x - middle.x);
-			
-			double xpercent = (right.x - x) / (right.x - middle.x);
-			double ypercent = (y - middle.y) / (right.y - middle.y);
-			
-			if (xpercent == 0 && ypercent == 0) return middle.z;
-			else if (xpercent == 0) return middle.z + ypercent * (right.z - middle.z);
-			else if (ypercent == 0) return middle.z + xpercent * (right.z - middle.z);
-			
-			double y1 = left.y + percentA * (right.y - left.y);
-			double y2 = middle.y + percentB * (right.y - middle.y);
-			
-			double z1 = left.z + percentA * (right.z - left.z);
-			double z2 = middle.z + percentB * (right.z - middle.z);
-			
-			double finalPercent = (y - y1) / (y2 - y1);
-			double z = z1 + finalPercent * (z2 - z1);
-			return z;
-		}
+
+		double z = -(((a * x) + (b * y) + (d)) / c);
+		return z;
 	}
 	
 	

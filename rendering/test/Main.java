@@ -249,7 +249,7 @@ public class Main {
 					
 					
 					
-					Point p = new Point(t.a.x - x, t.a.y - y, 0);
+					Point p = new Point(x, y, 0);
 					
 					
 					

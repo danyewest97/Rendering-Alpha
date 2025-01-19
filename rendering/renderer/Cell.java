@@ -118,6 +118,7 @@ public class Cell {
 						unrotated.rotateX(r.centerOfRotation, -r.rotX);
 						unrotated.rotateY(r.centerOfRotation, -r.rotY);
 						unrotated.rotateZ(r.centerOfRotation, -r.rotZ);
+						
 					}
 					
 					Point pxy = unrotated;
